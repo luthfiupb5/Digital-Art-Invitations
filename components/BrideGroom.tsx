@@ -112,7 +112,7 @@ export default function BrideGroom() {
               fontSize: "2rem",
               fontWeight: 300,
               color: "var(--cream-100)",
-              marginBottom: "6px",
+              marginBottom: "2px",
             }}
           >
             Priya Sharma
@@ -124,10 +124,21 @@ export default function BrideGroom() {
               letterSpacing: "0.3em",
               textTransform: "uppercase",
               color: "rgba(212,168,83,0.6)",
-              marginBottom: "16px",
+              marginBottom: "6px",
             }}
           >
             The Bride
+          </div>
+          <div
+            style={{
+              fontFamily: "var(--font-crimson)",
+              fontSize: "0.82rem",
+              letterSpacing: "0.06em",
+              color: "rgba(247,238,223,0.75)",
+              marginBottom: "16px",
+            }}
+          >
+            Daughter of <span style={{ color: "rgba(212,168,83,0.9)" }}>Mr. Rajesh</span> &amp; <span style={{ color: "rgba(212,168,83,0.9)" }}>Mrs. Sunita Sharma</span>
           </div>
           <div className="divider-gold" style={{ marginBottom: "16px" }} />
           <p
@@ -193,7 +204,7 @@ export default function BrideGroom() {
               fontSize: "2rem",
               fontWeight: 300,
               color: "var(--cream-100)",
-              marginBottom: "6px",
+              marginBottom: "2px",
             }}
           >
             Arjun Mehta
@@ -205,10 +216,21 @@ export default function BrideGroom() {
               letterSpacing: "0.3em",
               textTransform: "uppercase",
               color: "rgba(212,168,83,0.6)",
-              marginBottom: "16px",
+              marginBottom: "6px",
             }}
           >
             The Groom
+          </div>
+          <div
+            style={{
+              fontFamily: "var(--font-crimson)",
+              fontSize: "0.82rem",
+              letterSpacing: "0.06em",
+              color: "rgba(247,238,223,0.75)",
+              marginBottom: "16px",
+            }}
+          >
+            Son of <span style={{ color: "rgba(212,168,83,0.9)" }}>Mr. Suresh</span> &amp; <span style={{ color: "rgba(212,168,83,0.9)" }}>Mrs. Kavita Mehta</span>
           </div>
           <div className="divider-gold" style={{ marginBottom: "16px" }} />
           <p

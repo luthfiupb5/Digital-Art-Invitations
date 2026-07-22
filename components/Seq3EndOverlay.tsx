@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 interface Seq3EndOverlayProps {
   isVisible: boolean;
   progress: number; // 0 -> 1 during seq3 pin phase
+  fadeOut?: number;
 }
 
 const REVEAL_STAGES = [
@@ -17,7 +18,7 @@ const REVEAL_STAGES = [
   { threshold: 0.32 }, // Scroll indicator
 ];
 
-export default function Seq3EndOverlay({ isVisible, progress }: Seq3EndOverlayProps) {
+export default function Seq3EndOverlay({ isVisible, progress, fadeOut = 1 }: Seq3EndOverlayProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const skyGradRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
@@ -31,9 +32,9 @@ export default function Seq3EndOverlay({ isVisible, progress }: Seq3EndOverlayPr
 
   useEffect(() => {
     if (!overlayRef.current) return;
-    overlayRef.current.style.opacity = isVisible ? "1" : "0";
-    overlayRef.current.style.pointerEvents = isVisible ? "auto" : "none";
-  }, [isVisible]);
+    overlayRef.current.style.opacity = isVisible ? String(fadeOut) : "0";
+    overlayRef.current.style.pointerEvents = isVisible && fadeOut > 0.1 ? "auto" : "none";
+  }, [isVisible, fadeOut]);
 
   useEffect(() => {
     // 1. Soft white sky gradient fade in

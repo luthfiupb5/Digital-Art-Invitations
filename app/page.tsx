@@ -6,9 +6,11 @@ import {
   SEQ1_SCROLL_HEIGHT,
   SEQ2_SCROLL_HEIGHT,
   SEQ3_SCROLL_HEIGHT,
+  SEQ4_SCROLL_HEIGHT,
   HERO_PIN_SCROLL_HEIGHT,
   SEQ2_PIN_SCROLL_HEIGHT,
   SEQ3_PIN_SCROLL_HEIGHT,
+  SEQ4_PIN_SCROLL_HEIGHT,
 } from "@/lib/frameUtils";
 
 // Dynamic imports for code splitting
@@ -22,6 +24,9 @@ const Seq2EndOverlay = dynamic(() => import("@/components/Seq2EndOverlay"), {
   ssr: false,
 });
 const Seq3EndOverlay = dynamic(() => import("@/components/Seq3EndOverlay"), {
+  ssr: false,
+});
+const Seq4EndOverlay = dynamic(() => import("@/components/Seq4EndOverlay"), {
   ssr: false,
 });
 const AmbientLayer = dynamic(() => import("@/components/AmbientLayer"), {
@@ -43,6 +48,8 @@ const SEQ2_H = SEQ2_SCROLL_HEIGHT;         // 3224px
 const SEQ2_PIN_H = SEQ2_PIN_SCROLL_HEIGHT; // 1800px
 const SEQ3_H = SEQ3_SCROLL_HEIGHT;         // 2080px
 const SEQ3_PIN_H = SEQ3_PIN_SCROLL_HEIGHT; // 2400px
+const SEQ4_H = SEQ4_SCROLL_HEIGHT;         // 3840px
+const SEQ4_PIN_H = SEQ4_PIN_SCROLL_HEIGHT; // 2400px
 
 export default function Home() {
   const [heroPhase, setHeroPhase] = useState(false);
@@ -53,6 +60,10 @@ export default function Home() {
   const [seq2FadeOut, setSeq2FadeOut] = useState(1);
   const [seq3PinPhase, setSeq3PinPhase] = useState(false);
   const [seq3PinProgress, setSeq3PinProgress] = useState(0);
+  const [seq3FadeOut, setSeq3FadeOut] = useState(1);
+  const [seq4PinPhase, setSeq4PinPhase] = useState(false);
+  const [seq4PinProgress, setSeq4PinProgress] = useState(0);
+  const [seq4FadeOut, setSeq4FadeOut] = useState(1);
 
   const handleHeroPhaseChange = useCallback(
     (inHeroPhase: boolean, progress: number, fadeOut: number = 1) => {
@@ -72,10 +83,23 @@ export default function Home() {
     []
   );
 
-  const handleSeq3PinChange = useCallback((inPinPhase: boolean, progress: number) => {
-    setSeq3PinPhase(inPinPhase);
-    setSeq3PinProgress(progress);
-  }, []);
+  const handleSeq3PinChange = useCallback(
+    (inPinPhase: boolean, progress: number, fadeOut: number = 1) => {
+      setSeq3PinPhase(inPinPhase);
+      setSeq3PinProgress(progress);
+      setSeq3FadeOut(fadeOut);
+    },
+    []
+  );
+
+  const handleSeq4PinChange = useCallback(
+    (inPinPhase: boolean, progress: number, fadeOut: number = 1) => {
+      setSeq4PinPhase(inPinPhase);
+      setSeq4PinProgress(progress);
+      setSeq4FadeOut(fadeOut);
+    },
+    []
+  );
 
   const handleSeq2Complete = useCallback(() => {}, []);
 
@@ -127,11 +151,12 @@ export default function Home() {
 
   return (
     <>
-      {/* ── Fixed Canvas (z:0) — renders all 1143 frames ─────────────── */}
+      {/* ── Fixed Canvas (z:0) — renders all 1623 frames ─────────────── */}
       <SequencePlayer
         onHeroPhaseChange={handleHeroPhaseChange}
         onSeq2PinChange={handleSeq2PinChange}
         onSeq3PinChange={handleSeq3PinChange}
+        onSeq4PinChange={handleSeq4PinChange}
         onSeq2Complete={handleSeq2Complete}
       />
 
@@ -145,7 +170,10 @@ export default function Home() {
       <Seq2EndOverlay isVisible={seq2PinPhase} progress={seq2PinProgress} fadeOut={seq2FadeOut} />
 
       {/* ── Seq3 final frame pin overlay (z:2) — soft white sky fade & minimal Our Story ── */}
-      <Seq3EndOverlay isVisible={seq3PinPhase} progress={seq3PinProgress} />
+      <Seq3EndOverlay isVisible={seq3PinPhase} progress={seq3PinProgress} fadeOut={seq3FadeOut} />
+
+      {/* ── Seq4 final frame pin overlay (z:2) — soft white sky fade & minimal Couple details ── */}
+      <Seq4EndOverlay isVisible={seq4PinPhase} progress={seq4PinProgress} fadeOut={seq4FadeOut} />
 
       {/* ── Scroll root — defines page height ─────────────────────────── */}
       <div id="scroll-root" style={{ position: "relative", zIndex: 1 }}>
@@ -168,6 +196,12 @@ export default function Home() {
         {/* Sequence 3 pin spacer — pins final frame of sequence 3 */}
         <div aria-hidden="true" style={{ height: SEQ3_PIN_H + "px", width: "100%" }} />
 
+        {/* Sequence 4 spacer */}
+        <div aria-hidden="true" style={{ height: SEQ4_H + "px", width: "100%" }} />
+
+        {/* Sequence 4 pin spacer — pins final frame of sequence 4 */}
+        <div aria-hidden="true" style={{ height: SEQ4_PIN_H + "px", width: "100%" }} />
+
         {/* ── Content sections — each with its own distinct background ─── */}
         <div
           style={{
@@ -175,7 +209,7 @@ export default function Home() {
             zIndex: 3,
           }}
         >
-          {/* Thin gradient bridge: seq3 final frame → BrideGroom section */}
+          {/* Thin gradient bridge: seq4 final frame → BrideGroom section */}
           <div
             style={{
               position: "absolute",
@@ -211,3 +245,4 @@ export default function Home() {
     </>
   );
 }
+

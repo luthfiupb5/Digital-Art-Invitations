@@ -5,13 +5,16 @@ import {
   SEQ1_TOTAL,
   SEQ2_TOTAL,
   SEQ3_TOTAL,
+  SEQ4_TOTAL,
   TOTAL_FRAMES,
   SEQ1_SCROLL_HEIGHT,
   SEQ2_SCROLL_HEIGHT,
   SEQ3_SCROLL_HEIGHT,
+  SEQ4_SCROLL_HEIGHT,
   HERO_PIN_SCROLL_HEIGHT,
   SEQ2_PIN_SCROLL_HEIGHT,
   SEQ3_PIN_SCROLL_HEIGHT,
+  SEQ4_PIN_SCROLL_HEIGHT,
   PX_PER_FRAME,
   getFrameUrl,
   preloadBatch,
@@ -21,7 +24,8 @@ import {
 interface SequencePlayerProps {
   onHeroPhaseChange?: (inHeroPhase: boolean, progress: number, fadeOut?: number) => void;
   onSeq2PinChange?: (inPinPhase: boolean, progress: number, fadeOut?: number) => void;
-  onSeq3PinChange?: (inPinPhase: boolean, progress: number) => void;
+  onSeq3PinChange?: (inPinPhase: boolean, progress: number, fadeOut?: number) => void;
+  onSeq4PinChange?: (inPinPhase: boolean, progress: number, fadeOut?: number) => void;
   onSeq2Complete?: () => void;
 }
 
@@ -32,6 +36,7 @@ export default function SequencePlayer({
   onHeroPhaseChange,
   onSeq2PinChange,
   onSeq3PinChange,
+  onSeq4PinChange,
   onSeq2Complete,
 }: SequencePlayerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -160,6 +165,9 @@ export default function SequencePlayer({
     const SEQ3_START = SEQ2_PIN_END; // 8864px
     const SEQ3_END = SEQ3_START + SEQ3_SCROLL_HEIGHT; // 10944px
     const SEQ3_PIN_END = SEQ3_END + SEQ3_PIN_SCROLL_HEIGHT; // 13344px
+    const SEQ4_START = SEQ3_PIN_END; // 13344px
+    const SEQ4_END = SEQ4_START + SEQ4_SCROLL_HEIGHT; // 17184px
+    const SEQ4_PIN_END = SEQ4_END + SEQ4_PIN_SCROLL_HEIGHT; // 19584px
 
     // Hero text starts appearing at frame 300 of seq1 (2400px)
     const HERO_REVEAL_FRAME = 300;
@@ -180,6 +188,7 @@ export default function SequencePlayer({
         if (onHeroPhaseChange) onHeroPhaseChange(false, 0, 0);
         if (onSeq2PinChange) onSeq2PinChange(false, 0);
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
+        if (onSeq4PinChange) onSeq4PinChange(false, 0);
 
       } else if (scrollY < SEQ1_END) {
         // ── Phase 1b: Sequence 1 frames 300→480 — hero text completely reveals before frame 480
@@ -193,6 +202,7 @@ export default function SequencePlayer({
         if (onHeroPhaseChange) onHeroPhaseChange(true, clamp(heroProgress, 0, 1), 1);
         if (onSeq2PinChange) onSeq2PinChange(false, 0);
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
+        if (onSeq4PinChange) onSeq4PinChange(false, 0);
 
       } else if (scrollY < SEQ2_END) {
         // ── Phase 2: Sequence 2 scrubbing — starts IMMEDIATELY after Seq 1 final frame!
@@ -215,6 +225,7 @@ export default function SequencePlayer({
         }
         if (onSeq2PinChange) onSeq2PinChange(false, 0);
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
+        if (onSeq4PinChange) onSeq4PinChange(false, 0);
 
         // Proactively preload ahead
         const preloadAhead = Math.min(targetFrame + 40, TOTAL_FRAMES - 1);
@@ -229,6 +240,7 @@ export default function SequencePlayer({
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(true, clamp(pinProgress, 0, 1), 1);
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
+        if (onSeq4PinChange) onSeq4PinChange(false, 0);
 
       } else if (scrollY < SEQ3_END) {
         // ── Phase 4: Sequence 3 scrubbing — frames 883 -> 1142
@@ -249,6 +261,7 @@ export default function SequencePlayer({
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(seq2FadeOut > 0, 1, seq2FadeOut);
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
+        if (onSeq4PinChange) onSeq4PinChange(false, 0);
 
         // Proactively preload ahead
         const preloadAhead = Math.min(targetFrame + 40, TOTAL_FRAMES - 1);
@@ -258,24 +271,71 @@ export default function SequencePlayer({
 
       } else if (scrollY < SEQ3_PIN_END) {
         // ── Phase 5: Sequence 3 PIN phase — hold final frame of sequence 3 (frame 1142) & reveal Our Story
-        targetFrame = TOTAL_FRAMES - 1; // 1142
+        targetFrame = SEQ1_TOTAL + SEQ2_TOTAL + SEQ3_TOTAL - 1; // 1142
         const pinProgress3 = (scrollY - SEQ3_END) / SEQ3_PIN_SCROLL_HEIGHT;
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(false, 1);
-        if (onSeq3PinChange) onSeq3PinChange(true, clamp(pinProgress3, 0, 1));
+        if (onSeq3PinChange) onSeq3PinChange(true, clamp(pinProgress3, 0, 1), 1);
+        if (onSeq4PinChange) onSeq4PinChange(false, 0);
+
+      } else if (scrollY < SEQ4_END) {
+        // ── Phase 6: Sequence 4 scrubbing — frames 1143 -> 1622
+        const seq4Scroll = scrollY - SEQ3_PIN_END;
+        const seq4Frame = clamp(
+          Math.floor(seq4Scroll / PX_PER_FRAME),
+          0,
+          SEQ4_TOTAL - 1
+        );
+        targetFrame = SEQ1_TOTAL + SEQ2_TOTAL + SEQ3_TOTAL + seq4Frame;
+
+        // Seq3 overlay fade out: stays 100% visible for first 400px of Seq 4 (~50 frames), then slowly fades out 400px -> 900px
+        let seq3FadeOut = 1;
+        if (seq4Scroll > 400) {
+          seq3FadeOut = clamp(1 - (seq4Scroll - 400) / 500, 0, 1);
+        }
+
+        // Couple overlay starts appearing at frame 360 of Sequence 4 (2880px scroll into Seq 4)
+        const SEQ4_REVEAL_SCROLL = 360 * PX_PER_FRAME; // 2880px
+        const SEQ4_REVEAL_TOTAL = SEQ4_SCROLL_HEIGHT - SEQ4_REVEAL_SCROLL; // 960px (reaches 100% at frame 480)
+
+        let seq4Progress = 0;
+        let isSeq4Visible = false;
+        if (seq4Scroll >= SEQ4_REVEAL_SCROLL) {
+          isSeq4Visible = true;
+          seq4Progress = clamp((seq4Scroll - SEQ4_REVEAL_SCROLL) / SEQ4_REVEAL_TOTAL, 0, 1);
+        }
+
+        if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
+        if (onSeq2PinChange) onSeq2PinChange(false, 1);
+        if (onSeq3PinChange) onSeq3PinChange(seq3FadeOut > 0, 1, seq3FadeOut);
+        if (onSeq4PinChange) onSeq4PinChange(isSeq4Visible, seq4Progress, 1);
+
+        // Proactively preload ahead
+        const preloadAhead = Math.min(targetFrame + 40, TOTAL_FRAMES - 1);
+        if (!imageCache.current[preloadAhead]) {
+          preloadBatch(imageCache.current, targetFrame, 40);
+        }
+
+      } else if (scrollY < SEQ4_PIN_END) {
+        // ── Phase 7: Sequence 4 PIN phase — hold final frame of sequence 4 (frame 1622) & keep Couple overlay 100% visible
+        targetFrame = TOTAL_FRAMES - 1; // 1622
+        if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
+        if (onSeq2PinChange) onSeq2PinChange(false, 1);
+        if (onSeq3PinChange) onSeq3PinChange(false, 1);
+        if (onSeq4PinChange) onSeq4PinChange(true, 1, 1);
 
       } else {
-        // ── Phase 6: Past sequence 3 pin — hold final frame as resting backdrop
+        // ── Phase 8: Past sequence 4 pin — hold final frame as resting backdrop
         targetFrame = TOTAL_FRAMES - 1;
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(false, 1);
         if (onSeq3PinChange) onSeq3PinChange(false, 1);
+        if (onSeq4PinChange) onSeq4PinChange(false, 1);
         if (!seq2CompleteCalledRef.current) {
           seq2CompleteCalledRef.current = true;
           if (onSeq2Complete) onSeq2Complete();
         }
       }
-
 
       // Draw if frame changed
       if (targetFrame !== currentFrameRef.current) {
@@ -304,7 +364,7 @@ export default function SequencePlayer({
       window.removeEventListener("scroll", updateFromScroll);
       cancelAnimationFrame(rafId);
     };
-  }, [drawFrame, onHeroPhaseChange, onSeq2Complete]);
+  }, [drawFrame, onHeroPhaseChange, onSeq2PinChange, onSeq3PinChange, onSeq4PinChange, onSeq2Complete]);
 
   return (
     <canvas
