@@ -94,7 +94,7 @@ export default function WelcomeDetails() {
             letterSpacing: "0.03em",
           }}
         >
-          Priya Sharma
+          Fathima Beevi
         </div>
 
         <div
@@ -128,7 +128,7 @@ export default function WelcomeDetails() {
             marginBottom: "32px",
           }}
         >
-          Arjun Mehta
+          Muhammed PP
         </div>
 
         {/* Gold divider */}

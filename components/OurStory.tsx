@@ -132,7 +132,7 @@ export default function OurStory() {
             }}
           >
             Through seasons of laughter, long conversations, and the gentle
-            unfolding of trust, Priya and Arjun discovered what it means to
+            unfolding of trust, Fathima and Muhammed discovered what it means to
             truly belong — not to a place, but to each other.
           </p>
           <p

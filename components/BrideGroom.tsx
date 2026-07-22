@@ -103,7 +103,7 @@ export default function BrideGroom() {
               color: "rgba(212,168,83,0.8)",
             }}
           >
-            P
+            F
           </div>
           <div
             style={{
@@ -115,7 +115,7 @@ export default function BrideGroom() {
               marginBottom: "2px",
             }}
           >
-            Priya Sharma
+            Fathima Beevi
           </div>
           <div
             style={{
@@ -195,7 +195,7 @@ export default function BrideGroom() {
               color: "rgba(212,168,83,0.8)",
             }}
           >
-            A
+            M
           </div>
           <div
             style={{
@@ -207,7 +207,7 @@ export default function BrideGroom() {
               marginBottom: "2px",
             }}
           >
-            Arjun Mehta
+            Muhammed PP
           </div>
           <div
             style={{
@@ -237,7 +237,7 @@ export default function BrideGroom() {
             className="body-elegant"
             style={{ fontSize: "0.95rem", textAlign: "center" }}
           >
-            Steady, thoughtful, and deeply kind — he found in Priya not just
+            Steady, thoughtful, and deeply kind — he found in Fathima not just
             a partner, but the quiet place where his soul finally felt at home.
           </p>
         </div>

@@ -188,7 +188,7 @@ export default function Seq3EndOverlay({ isVisible, progress, fadeOut = 1 }: Seq
           transition: "none",
         }}
       >
-        — Priya &amp; Arjun
+        — Fathima &amp; Muhammed
       </div>
 
       {/* ── Minimal Scroll Indicator ────────────────────────────────────────── */}

@@ -122,7 +122,7 @@ export default function Seq2EndOverlay({ isVisible, progress, fadeOut = 1 }: Seq
             letterSpacing: "0.02em",
           }}
         >
-          Priya Sharma
+          Fathima Beevi
         </div>
 
         <div
@@ -151,7 +151,7 @@ export default function Seq2EndOverlay({ isVisible, progress, fadeOut = 1 }: Seq
             letterSpacing: "0.02em",
           }}
         >
-          Arjun Mehta
+          Muhammed PP
         </div>
       </div>
 

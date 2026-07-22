@@ -162,7 +162,7 @@ export default function Seq4EndOverlay({
               transition: "none",
             }}
           >
-            Priya Sharma
+            Fathima Beevi
           </div>
           <div
             ref={brideParentsRef}
@@ -216,7 +216,7 @@ export default function Seq4EndOverlay({
               transition: "none",
             }}
           >
-            Arjun Mehta
+            Muhammed PP
           </div>
           <div
             ref={groomParentsRef}

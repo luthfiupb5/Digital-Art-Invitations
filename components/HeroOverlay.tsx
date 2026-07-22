@@ -88,7 +88,7 @@ export default function HeroOverlay({ isVisible, progress, fadeOut = 1 }: HeroOv
           textAlign: "center",
         }}
       >
-        Priya
+        Fathima
       </div>
 
       {/* Ampersand */}
@@ -131,7 +131,7 @@ export default function HeroOverlay({ isVisible, progress, fadeOut = 1 }: HeroOv
           textAlign: "center",
         }}
       >
-        Arjun
+        Muhammed
       </div>
 
       {/* Thin gold separator */}

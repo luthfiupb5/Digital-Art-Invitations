@@ -145,7 +145,7 @@ export default function ThankYou() {
               letterSpacing: "0.04em",
             }}
           >
-            Priya &amp; Arjun
+            Fathima &amp; Muhammed
           </div>
         </div>
 
