@@ -49,12 +49,30 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* ─── Canvas Layer ───────────────────────────────────────────────────────── */
+/* Desktop Preview Shell — preserves exact mobile composition on screens > 480px */
+@media (min-width: 481px) {
+  body {
+    background: #050705;
+  }
+
+  .mobile-shell-outer {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.9), 0 0 1px rgba(212, 168, 83, 0.25);
+    position: relative;
+  }
+}
+
+/* ─── Canvas Layer — Mobile Only (320px–480px) ───────────────────────────── */
 #cinema-canvas {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  max-width: 480px;
   height: 100%;
   z-index: var(--canvas-z);
   object-fit: cover;
@@ -67,25 +85,53 @@ body {
 #scroll-root {
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 /* ─── Hero Overlay ───────────────────────────────────────────────────────── */
 #hero-overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
   z-index: var(--hero-z);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  padding-bottom: max(10vh, 60px);
+  justify-content: flex-start;
+  padding-top: max(8vh, 52px);
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
   pointer-events: none;
+}
+
+/* ─── Seq End Overlays ───────────────────────────────────────────────────── */
+#seq2-end-overlay,
+#seq3-end-overlay {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
+  z-index: var(--hero-z);
 }
 
 /* ─── Particle / Ambient Layer ───────────────────────────────────────────── */
 #ambient-layer {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
   z-index: var(--ambient-z);
   pointer-events: none;
   overflow: hidden;

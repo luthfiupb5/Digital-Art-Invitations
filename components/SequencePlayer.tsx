@@ -84,7 +84,7 @@ export default function SequencePlayer({
     const canvas = canvasRef.current;
     if (!canvas) return;
     const dpr = window.devicePixelRatio || 1;
-    const logicalW = window.innerWidth;
+    const logicalW = Math.min(window.innerWidth, 480);
     const logicalH = window.innerHeight;
 
     // Physical buffer = logical * dpr for crisp rendering
