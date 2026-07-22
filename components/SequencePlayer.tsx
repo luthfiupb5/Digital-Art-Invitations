@@ -84,16 +84,16 @@ export default function SequencePlayer({
     const canvas = canvasRef.current;
     if (!canvas) return;
     const dpr = window.devicePixelRatio || 1;
-    const logicalW = Math.min(window.innerWidth, 480);
+    const logicalW = window.innerWidth;
     const logicalH = window.innerHeight;
 
     // Physical buffer = logical * dpr for crisp rendering
     canvas.width = logicalW * dpr;
     canvas.height = logicalH * dpr;
 
-    // CSS size stays at logical pixels — no visual stretching
-    canvas.style.width = logicalW + "px";
-    canvas.style.height = logicalH + "px";
+    // CSS size stays at 100% of viewport — no stretching or cutoff
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
 
     // Redraw current frame after resize
     drawFrame(currentFrameRef.current);

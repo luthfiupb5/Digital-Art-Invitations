@@ -88,9 +88,7 @@ export default function RootLayout({
             This experience is designed for portrait viewing
           </p>
         </div>
-        <div className="mobile-shell-outer">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );
