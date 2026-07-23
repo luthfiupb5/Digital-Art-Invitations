@@ -145,7 +145,7 @@ export default function ThankYou() {
               letterSpacing: "0.04em",
             }}
           >
-            Fathima &amp; Muhammed
+            Aisha &amp; Zayd
           </div>
         </div>
 

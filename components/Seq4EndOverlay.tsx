@@ -162,7 +162,7 @@ export default function Seq4EndOverlay({
               transition: "none",
             }}
           >
-            Fathima Beevi
+            Aisha Khan
           </div>
           <div
             ref={brideParentsRef}
@@ -178,7 +178,7 @@ export default function Seq4EndOverlay({
               transition: "none",
             }}
           >
-            Daughter of <span style={{ color: "#3d2e24", fontWeight: 600 }}>Mr. Rajesh Sharma</span> &amp; <span style={{ color: "#3d2e24", fontWeight: 600 }}>Mrs. Sunita Sharma</span>
+            Daughter of <span style={{ color: "#3d2e24", fontWeight: 600 }}>Mr. Tariq Khan</span> &amp; <span style={{ color: "#3d2e24", fontWeight: 600 }}>Mrs. Farida Khan</span>
           </div>
         </div>
 
@@ -216,7 +216,7 @@ export default function Seq4EndOverlay({
               transition: "none",
             }}
           >
-            Muhammed PP
+            Zayd Rahman
           </div>
           <div
             ref={groomParentsRef}
@@ -232,7 +232,7 @@ export default function Seq4EndOverlay({
               transition: "none",
             }}
           >
-            Son of <span style={{ color: "#3d2e24", fontWeight: 600 }}>Mr. Suresh Mehta</span> &amp; <span style={{ color: "#3d2e24", fontWeight: 600 }}>Mrs. Kavita Mehta</span>
+            Son of <span style={{ color: "#3d2e24", fontWeight: 600 }}>Mr. Kabir Rahman</span> &amp; <span style={{ color: "#3d2e24", fontWeight: 600 }}>Mrs. Salma Rahman</span>
           </div>
         </div>
       </div>

@@ -103,7 +103,7 @@ export default function BrideGroom() {
               color: "rgba(212,168,83,0.8)",
             }}
           >
-            F
+            A
           </div>
           <div
             style={{
@@ -115,7 +115,7 @@ export default function BrideGroom() {
               marginBottom: "2px",
             }}
           >
-            Fathima Beevi
+            Aisha Khan
           </div>
           <div
             style={{
@@ -138,7 +138,7 @@ export default function BrideGroom() {
               marginBottom: "16px",
             }}
           >
-            Daughter of <span style={{ color: "rgba(212,168,83,0.9)" }}>Mr. Rajesh</span> &amp; <span style={{ color: "rgba(212,168,83,0.9)" }}>Mrs. Sunita Sharma</span>
+            Daughter of <span style={{ color: "rgba(212,168,83,0.9)" }}>Mr. Tariq</span> &amp; <span style={{ color: "rgba(212,168,83,0.9)" }}>Mrs. Farida Khan</span>
           </div>
           <div className="divider-gold" style={{ marginBottom: "16px" }} />
           <p
@@ -195,7 +195,7 @@ export default function BrideGroom() {
               color: "rgba(212,168,83,0.8)",
             }}
           >
-            M
+            Z
           </div>
           <div
             style={{
@@ -207,7 +207,7 @@ export default function BrideGroom() {
               marginBottom: "2px",
             }}
           >
-            Muhammed PP
+            Zayd Rahman
           </div>
           <div
             style={{
@@ -230,14 +230,14 @@ export default function BrideGroom() {
               marginBottom: "16px",
             }}
           >
-            Son of <span style={{ color: "rgba(212,168,83,0.9)" }}>Mr. Suresh</span> &amp; <span style={{ color: "rgba(212,168,83,0.9)" }}>Mrs. Kavita Mehta</span>
+            Son of <span style={{ color: "rgba(212,168,83,0.9)" }}>Mr. Kabir</span> &amp; <span style={{ color: "rgba(212,168,83,0.9)" }}>Mrs. Salma Rahman</span>
           </div>
           <div className="divider-gold" style={{ marginBottom: "16px" }} />
           <p
             className="body-elegant"
             style={{ fontSize: "0.95rem", textAlign: "center" }}
           >
-            Steady, thoughtful, and deeply kind — he found in Fathima not just
+            Steady, thoughtful, and deeply kind — he found in Aisha not just
             a partner, but the quiet place where his soul finally felt at home.
           </p>
         </div>
