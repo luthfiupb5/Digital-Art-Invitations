@@ -7,10 +7,12 @@ import {
   SEQ2_SCROLL_HEIGHT,
   SEQ3_SCROLL_HEIGHT,
   SEQ4_SCROLL_HEIGHT,
+  SEQ5_SCROLL_HEIGHT,
   HERO_PIN_SCROLL_HEIGHT,
   SEQ2_PIN_SCROLL_HEIGHT,
   SEQ3_PIN_SCROLL_HEIGHT,
   SEQ4_PIN_SCROLL_HEIGHT,
+  SEQ5_PIN_SCROLL_HEIGHT,
 } from "@/lib/frameUtils";
 
 // Dynamic imports for code splitting
@@ -26,30 +28,28 @@ const Seq2EndOverlay = dynamic(() => import("@/components/Seq2EndOverlay"), {
 const Seq3EndOverlay = dynamic(() => import("@/components/Seq3EndOverlay"), {
   ssr: false,
 });
-const Seq4EndOverlay = dynamic(() => import("@/components/Seq4EndOverlay"), {
+const Seq5EndOverlay = dynamic(() => import("@/components/Seq5EndOverlay"), {
   ssr: false,
 });
 const AmbientLayer = dynamic(() => import("@/components/AmbientLayer"), {
   ssr: false,
 });
 
-// Content sections — lazy loaded, each has its own background
-const BrideGroom = dynamic(() => import("@/components/BrideGroom"), { ssr: false });
-const WeddingDetails = dynamic(() => import("@/components/WeddingDetails"), { ssr: false });
+// Content sections — lazy loaded
 const VenueSection = dynamic(() => import("@/components/VenueSection"), { ssr: false });
-const Families = dynamic(() => import("@/components/Families"), { ssr: false });
-const Blessings = dynamic(() => import("@/components/Blessings"), { ssr: false });
 const ThankYou = dynamic(() => import("@/components/ThankYou"), { ssr: false });
 
 // Total scroll heights
 const SEQ1_H = SEQ1_SCROLL_HEIGHT;         // 3840px
-const HERO_H = HERO_PIN_SCROLL_HEIGHT;     // 0px (no holding pin after seq1)
+const HERO_H = HERO_PIN_SCROLL_HEIGHT;     // 0px
 const SEQ2_H = SEQ2_SCROLL_HEIGHT;         // 3224px
 const SEQ2_PIN_H = SEQ2_PIN_SCROLL_HEIGHT; // 1800px
 const SEQ3_H = SEQ3_SCROLL_HEIGHT;         // 2080px
 const SEQ3_PIN_H = SEQ3_PIN_SCROLL_HEIGHT; // 2400px
 const SEQ4_H = SEQ4_SCROLL_HEIGHT;         // 3840px
-const SEQ4_PIN_H = SEQ4_PIN_SCROLL_HEIGHT; // 2400px
+const SEQ4_PIN_H = SEQ4_PIN_SCROLL_HEIGHT; // 0px
+const SEQ5_H = SEQ5_SCROLL_HEIGHT;         // 1904px
+const SEQ5_PIN_H = SEQ5_PIN_SCROLL_HEIGHT; // 2800px
 
 export default function Home() {
   const [heroPhase, setHeroPhase] = useState(false);
@@ -61,9 +61,9 @@ export default function Home() {
   const [seq3PinPhase, setSeq3PinPhase] = useState(false);
   const [seq3PinProgress, setSeq3PinProgress] = useState(0);
   const [seq3FadeOut, setSeq3FadeOut] = useState(1);
-  const [seq4PinPhase, setSeq4PinPhase] = useState(false);
-  const [seq4PinProgress, setSeq4PinProgress] = useState(0);
-  const [seq4FadeOut, setSeq4FadeOut] = useState(1);
+  const [seq5PinPhase, setSeq5PinPhase] = useState(false);
+  const [seq5PinProgress, setSeq5PinProgress] = useState(0);
+  const [seq5FadeOut, setSeq5FadeOut] = useState(1);
 
   const handleHeroPhaseChange = useCallback(
     (inHeroPhase: boolean, progress: number, fadeOut: number = 1) => {
@@ -92,11 +92,11 @@ export default function Home() {
     []
   );
 
-  const handleSeq4PinChange = useCallback(
+  const handleSeq5PinChange = useCallback(
     (inPinPhase: boolean, progress: number, fadeOut: number = 1) => {
-      setSeq4PinPhase(inPinPhase);
-      setSeq4PinProgress(progress);
-      setSeq4FadeOut(fadeOut);
+      setSeq5PinPhase(inPinPhase);
+      setSeq5PinProgress(progress);
+      setSeq5FadeOut(fadeOut);
     },
     []
   );
@@ -151,12 +151,12 @@ export default function Home() {
 
   return (
     <>
-      {/* ── Fixed Canvas (z:0) — renders all 1623 frames ─────────────── */}
+      {/* ── Fixed Canvas (z:0) — renders all 1861 frames ─────────────── */}
       <SequencePlayer
         onHeroPhaseChange={handleHeroPhaseChange}
         onSeq2PinChange={handleSeq2PinChange}
         onSeq3PinChange={handleSeq3PinChange}
-        onSeq4PinChange={handleSeq4PinChange}
+        onSeq5PinChange={handleSeq5PinChange}
         onSeq2Complete={handleSeq2Complete}
       />
 
@@ -172,8 +172,8 @@ export default function Home() {
       {/* ── Seq3 final frame pin overlay (z:2) — soft white sky fade & minimal Our Story ── */}
       <Seq3EndOverlay isVisible={seq3PinPhase} progress={seq3PinProgress} fadeOut={seq3FadeOut} />
 
-      {/* ── Seq4 final frame pin overlay (z:2) — soft white sky fade & minimal Couple details ── */}
-      <Seq4EndOverlay isVisible={seq4PinPhase} progress={seq4PinProgress} fadeOut={seq4FadeOut} />
+      {/* ── Seq5 final frame pin overlay (z:2) — interactive wedding details & live countdown ── */}
+      <Seq5EndOverlay isVisible={seq5PinPhase} progress={seq5PinProgress} fadeOut={seq5FadeOut} />
 
       {/* ── Scroll root — defines page height ─────────────────────────── */}
       <div id="scroll-root" style={{ position: "relative", zIndex: 1 }}>
@@ -187,29 +187,35 @@ export default function Home() {
         {/* Sequence 2 spacer */}
         <div aria-hidden="true" style={{ height: SEQ2_H + "px", width: "100%" }} />
 
-        {/* Sequence 2 pin spacer — pins final frame of sequence 2 */}
+        {/* Sequence 2 pin spacer */}
         <div aria-hidden="true" style={{ height: SEQ2_PIN_H + "px", width: "100%" }} />
 
         {/* Sequence 3 spacer */}
         <div aria-hidden="true" style={{ height: SEQ3_H + "px", width: "100%" }} />
 
-        {/* Sequence 3 pin spacer — pins final frame of sequence 3 */}
+        {/* Sequence 3 pin spacer */}
         <div aria-hidden="true" style={{ height: SEQ3_PIN_H + "px", width: "100%" }} />
 
         {/* Sequence 4 spacer */}
         <div aria-hidden="true" style={{ height: SEQ4_H + "px", width: "100%" }} />
 
-        {/* Sequence 4 pin spacer — pins final frame of sequence 4 */}
+        {/* Sequence 4 pin spacer */}
         <div aria-hidden="true" style={{ height: SEQ4_PIN_H + "px", width: "100%" }} />
 
-        {/* ── Content sections — each with its own distinct background ─── */}
+        {/* Sequence 5 spacer */}
+        <div aria-hidden="true" style={{ height: SEQ5_H + "px", width: "100%" }} />
+
+        {/* Sequence 5 pin spacer — pins final frame of sequence 5 for countdown reveal */}
+        <div aria-hidden="true" style={{ height: SEQ5_PIN_H + "px", width: "100%" }} />
+
+        {/* ── Content sections — resting ending sections ─── */}
         <div
           style={{
             position: "relative",
             zIndex: 3,
           }}
         >
-          {/* Thin gradient bridge: seq4 final frame → BrideGroom section */}
+          {/* Transition bridge gradient */}
           <div
             style={{
               position: "absolute",
@@ -217,32 +223,19 @@ export default function Home() {
               left: 0,
               right: 0,
               height: "120px",
-              background: "linear-gradient(to bottom, rgba(26,13,18,0), #1a0d12)",
+              background: "linear-gradient(to bottom, rgba(12,8,16,0), #150e04)",
               pointerEvents: "none",
               zIndex: 0,
             }}
           />
 
-          {/* 1 — Bride & Groom (dark rose/plum) */}
-          <BrideGroom />
-
-          {/* 4 — Wedding Details (midnight navy) */}
-          <WeddingDetails />
-
-          {/* 5 — Venue + Map (rich amber) */}
+          {/* Venue + Map */}
           <VenueSection />
 
-          {/* 6 — Families (deep sage green) */}
-          <Families />
-
-          {/* 7 — Blessings (deep violet) */}
-          <Blessings />
-
-          {/* 8 — Thank You (warm charcoal gold) */}
+          {/* Thank You */}
           <ThankYou />
         </div>
       </div>
     </>
   );
 }
-
