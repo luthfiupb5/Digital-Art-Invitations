@@ -56,13 +56,13 @@ export default function Seq5EndOverlay({
 
   useEffect(() => {
     if (skyGradRef.current) {
-      const gradOpacity = Math.min(progress / 0.12, 1);
+      const gradOpacity = Math.min(progress / 0.15, 1);
       skyGradRef.current.style.opacity = String(gradOpacity);
     }
     if (contentRef.current) {
       const contentOpacity = Math.min(Math.max(0, (progress - 0.03) / 0.15), 1);
       contentRef.current.style.opacity = String(contentOpacity);
-      contentRef.current.style.transform = `translateY(${(1 - contentOpacity) * 20}px)`;
+      contentRef.current.style.transform = `translateY(${(1 - contentOpacity) * 16}px)`;
     }
   }, [progress]);
 
@@ -73,42 +73,41 @@ export default function Seq5EndOverlay({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const width = canvas.offsetWidth || 360;
-    const height = canvas.offsetHeight || 140;
+    const width = canvas.offsetWidth || 340;
+    const height = canvas.offsetHeight || 90;
     const dpr = window.devicePixelRatio || 1;
 
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     ctx.scale(dpr, dpr);
 
-    // Draw gold luxury foil cover
+    // Soft champagne gold foil cover
     const grad = ctx.createLinearGradient(0, 0, width, height);
-    grad.addColorStop(0, "#d4a853");
-    grad.addColorStop(0.3, "#fbf3d5");
-    grad.addColorStop(0.6, "#b5831e");
-    grad.addColorStop(1, "#e6c374");
+    grad.addColorStop(0, "#e8d098");
+    grad.addColorStop(0.5, "#fbf3d5");
+    grad.addColorStop(1, "#cfa244");
 
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
-    // Subtle texture noise / patterns
-    ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
-    for (let i = 0; i < 400; i++) {
+    // Subtle grain texture
+    ctx.fillStyle = "rgba(0, 0, 0, 0.03)";
+    for (let i = 0; i < 300; i++) {
       const rx = Math.random() * width;
       const ry = Math.random() * height;
       ctx.fillRect(rx, ry, 2, 2);
     }
 
-    // Border inner line
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
-    ctx.lineWidth = 2;
-    ctx.strokeRect(6, 6, width - 12, height - 12);
+    // Border line
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(5, 5, width - 10, height - 10);
 
-    // Scratch text guidance
-    ctx.fillStyle = "#2c1d09";
-    ctx.font = "italic 600 15px Georgia, serif";
+    // Scratch guidance text
+    ctx.fillStyle = "#3d2b0f";
+    ctx.font = "normal 500 12px Georgia, serif";
     ctx.textAlign = "center";
-    ctx.fillText("✨ Scratch or Hold to Reveal Countdown ✨", width / 2, height / 2 + 5);
+    ctx.fillText("✦ Drag or Hold to Reveal Countdown ✦", width / 2, height / 2 + 4);
   }, []);
 
   useEffect(() => {
@@ -117,7 +116,6 @@ export default function Seq5EndOverlay({
     return () => window.removeEventListener("resize", initCanvas);
   }, [initCanvas]);
 
-  // Check how much has been scratched
   const checkScratchPercentage = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas || isRevealed) return;
@@ -132,7 +130,7 @@ export default function Seq5EndOverlay({
         if (pixels[i] === 0) clearPixels++;
       }
       const totalSampled = pixels.length / 16;
-      if (clearPixels / totalSampled > 0.28) {
+      if (clearPixels / totalSampled > 0.25) {
         setIsRevealed(true);
       }
     } catch {
@@ -140,7 +138,6 @@ export default function Seq5EndOverlay({
     }
   }, [isRevealed]);
 
-  // Scratch action handler
   const scratchAt = useCallback(
     (clientX: number, clientY: number) => {
       const canvas = canvasRef.current;
@@ -154,7 +151,7 @@ export default function Seq5EndOverlay({
 
       ctx.globalCompositeOperation = "destination-out";
       ctx.beginPath();
-      ctx.arc(x, y, 24, 0, Math.PI * 2, false);
+      ctx.arc(x, y, 22, 0, Math.PI * 2, false);
       ctx.fill();
 
       checkScratchPercentage();
@@ -162,7 +159,6 @@ export default function Seq5EndOverlay({
     [isRevealed, checkScratchPercentage]
   );
 
-  // Mouse events
   const handleMouseDown = (e: React.MouseEvent) => {
     isScratchingRef.current = true;
     scratchAt(e.clientX, e.clientY);
@@ -175,7 +171,6 @@ export default function Seq5EndOverlay({
     isScratchingRef.current = false;
   };
 
-  // Touch events
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length > 0) {
       isScratchingRef.current = true;
@@ -190,12 +185,12 @@ export default function Seq5EndOverlay({
     isScratchingRef.current = false;
   };
 
-  // ── 4. Hold to Reveal Wax Seal ───────────────────────────────────────────
+  // ── 4. Hold to Reveal Action ───────────────────────────────────────────────
   const startHold = () => {
     if (isRevealed) return;
     let curr = 0;
     holdIntervalRef.current = setInterval(() => {
-      curr += 4;
+      curr += 5;
       setHoldProgress(Math.min(curr, 100));
       if (curr >= 100) {
         if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
@@ -223,15 +218,15 @@ export default function Seq5EndOverlay({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "flex-start",
-        paddingTop: "clamp(55px, 9vh, 90px)",
-        paddingLeft: "20px",
-        paddingRight: "20px",
+        paddingTop: "clamp(65px, 11vh, 105px)",
+        paddingLeft: "24px",
+        paddingRight: "24px",
         pointerEvents: "none",
         opacity: 0,
-        transition: "opacity 0.6s ease",
+        transition: "opacity 0.5s ease",
       }}
     >
-      {/* ── Soft White / Dark Gold Atmosphere Gradient ──────────────────────── */}
+      {/* ── Soft White Sky Gradient Fade (Matches Seq2/3/4 overlays) ───────── */}
       <div
         ref={skyGradRef}
         style={{
@@ -239,16 +234,16 @@ export default function Seq5EndOverlay({
           top: 0,
           left: 0,
           right: 0,
-          height: "90%",
+          height: "85%",
           background:
-            "linear-gradient(to bottom, rgba(12,8,16,0.95) 0%, rgba(20,13,24,0.85) 60%, rgba(12,8,16,0) 100%)",
+            "linear-gradient(to bottom, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0) 100%)",
           pointerEvents: "none",
           zIndex: -1,
           opacity: 0,
         }}
       />
 
-      {/* ── Main Content Container ─────────────────────────────────────────── */}
+      {/* ── Main Minimal Content Container ─────────────────────────────────── */}
       <div
         ref={contentRef}
         style={{
@@ -256,138 +251,157 @@ export default function Seq5EndOverlay({
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          maxWidth: "480px",
+          maxWidth: "460px",
           width: "100%",
           opacity: 0,
-          transform: "translateY(20px)",
+          transform: "translateY(16px)",
           transition: "transform 0.4s ease, opacity 0.4s ease",
         }}
       >
-        {/* Top Tag */}
+        {/* Minimal Tag */}
         <div
           style={{
             fontFamily: "var(--font-crimson)",
             fontSize: "0.62rem",
             letterSpacing: "0.42em",
             textTransform: "uppercase",
-            color: "#d4a853",
-            marginBottom: "10px",
+            color: "#b5831e",
+            marginBottom: "20px",
           }}
         >
           ✦ Save The Date ✦
         </div>
 
-        {/* Headline */}
-        <h2
-          style={{
-            fontFamily: "var(--font-cormorant)",
-            fontStyle: "italic",
-            fontSize: "clamp(2.2rem, 7.5vw, 3.2rem)",
-            fontWeight: 300,
-            lineHeight: 1.1,
-            color: "#f7eedf",
-            margin: "0 0 16px 0",
-          }}
-        >
-          Wedding Celebration &amp; Countdown
-        </h2>
-
-        {/* Gold Divider */}
+        {/* ── Wedding Details (Box-Free, Minimal, Icon Line Art) ──────────── */}
         <div
           style={{
-            width: "60px",
-            height: "1px",
-            background: "linear-gradient(90deg, transparent, rgba(212,168,83,0.8), transparent)",
-            marginBottom: "20px",
-          }}
-        />
-
-        {/* Wedding Key Details Card */}
-        <div
-          style={{
-            width: "100%",
-            background: "rgba(255, 255, 255, 0.04)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            border: "1px solid rgba(212, 168, 83, 0.25)",
-            borderRadius: "16px",
-            padding: "20px 24px",
-            marginBottom: "24px",
             display: "flex",
             flexDirection: "column",
-            gap: "12px",
-            boxShadow: "0 12px 32px rgba(0, 0, 0, 0.4)",
+            alignItems: "center",
+            gap: "14px",
+            marginBottom: "24px",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-            <span style={{ fontSize: "1.2rem" }}>📅</span>
+          {/* Date */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#b5831e"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
             <span
               style={{
                 fontFamily: "var(--font-cormorant)",
-                fontSize: "1.3rem",
-                color: "#f7eedf",
-                letterSpacing: "0.03em",
+                fontStyle: "italic",
+                fontWeight: 400,
+                fontSize: "clamp(1.5rem, 5.5vw, 2.1rem)",
+                color: "#1f1816",
+                letterSpacing: "0.02em",
+                lineHeight: 1.1,
               }}
             >
               Saturday, 14th February 2026
             </span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-            <span style={{ fontSize: "1.1rem" }}>⏰</span>
+          {/* Time */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#b5831e"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
             <span
               style={{
                 fontFamily: "var(--font-crimson)",
-                fontSize: "0.95rem",
-                color: "rgba(247, 238, 223, 0.85)",
-                letterSpacing: "0.05em",
+                fontSize: "0.82rem",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "#4a3b32",
               }}
             >
               11:00 AM Onwards
             </span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-            <span style={{ fontSize: "1.1rem" }}>📍</span>
+          {/* Venue */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#b5831e"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
             <span
               style={{
                 fontFamily: "var(--font-crimson)",
-                fontSize: "0.9rem",
-                color: "rgba(212, 168, 83, 0.9)",
-                letterSpacing: "0.04em",
+                fontSize: "0.78rem",
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                color: "#8c6517",
               }}
             >
-              The Grand Palace Garden, Marine Drive, Mumbai
+              The Grand Palace Garden, Mumbai
             </span>
           </div>
         </div>
 
-        {/* ── Interactive Countdown Container ────────────────────────────── */}
+        {/* Minimal Divider */}
+        <div
+          style={{
+            width: "50px",
+            height: "1px",
+            background: "linear-gradient(90deg, transparent, rgba(181,131,30,0.7), transparent)",
+            marginBottom: "24px",
+          }}
+        />
+
+        {/* ── Interactive Countdown (Box-Free, Minimal Serif Typography) ──── */}
         <div
           style={{
             position: "relative",
             width: "100%",
-            minHeight: "140px",
-            background: "rgba(18, 12, 22, 0.75)",
-            border: "1px solid rgba(212, 168, 83, 0.3)",
-            borderRadius: "16px",
-            overflow: "hidden",
+            maxWidth: "360px",
+            minHeight: "90px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            padding: "18px 14px",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
           }}
         >
-          {/* Live Countdown Display (Underneath) */}
+          {/* Floating Minimal Numbers */}
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "10px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "18px",
               width: "100%",
-              maxWidth: "380px",
             }}
           >
             {[
@@ -395,47 +409,62 @@ export default function Seq5EndOverlay({
               { label: "Hours", val: timeLeft.hours },
               { label: "Mins", val: timeLeft.minutes },
               { label: "Secs", val: timeLeft.seconds },
-            ].map((item) => (
+            ].map((item, i) => (
               <div
                 key={item.label}
                 style={{
-                  background: "rgba(212, 168, 83, 0.08)",
-                  border: "1px solid rgba(212, 168, 83, 0.25)",
-                  borderRadius: "12px",
-                  padding: "12px 6px",
                   display: "flex",
-                  flexDirection: "column",
                   alignItems: "center",
+                  gap: "18px",
                 }}
               >
-                <span
+                <div
                   style={{
-                    fontFamily: "var(--font-cormorant)",
-                    fontSize: "clamp(1.6rem, 5vw, 2.2rem)",
-                    fontWeight: 600,
-                    color: "#fbf3d5",
-                    lineHeight: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
                   }}
                 >
-                  {String(item.val).padStart(2, "0")}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-crimson)",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: "rgba(212, 168, 83, 0.8)",
-                    marginTop: "6px",
-                  }}
-                >
-                  {item.label}
-                </span>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-cormorant)",
+                      fontSize: "clamp(1.8rem, 6vw, 2.5rem)",
+                      fontWeight: 400,
+                      color: "#1f1816",
+                      lineHeight: 1,
+                      letterSpacing: "0.04em",
+                    }}
+                  >
+                    {String(item.val).padStart(2, "0")}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-crimson)",
+                      fontSize: "0.58rem",
+                      letterSpacing: "0.25em",
+                      textTransform: "uppercase",
+                      color: "#8c6517",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {item.label}
+                  </span>
+                </div>
+
+                {i < 3 && (
+                  <div
+                    style={{
+                      width: "1px",
+                      height: "22px",
+                      background: "rgba(181,131,30,0.3)",
+                    }}
+                  />
+                )}
               </div>
             ))}
           </div>
 
-          {/* Interactive Canvas Scratch Layer */}
+          {/* Seamless Interactive Scratch Canvas */}
           <canvas
             ref={canvasRef}
             onMouseDown={handleMouseDown}
@@ -453,22 +482,15 @@ export default function Seq5EndOverlay({
               touchAction: "none",
               opacity: isRevealed ? 0 : 1,
               pointerEvents: isRevealed ? "none" : "auto",
-              transition: "opacity 0.7s ease",
-              borderRadius: "16px",
+              transition: "opacity 0.6s ease",
+              borderRadius: "8px",
             }}
           />
         </div>
 
-        {/* ── Hold / Quick Reveal Seal Button ──────────────────────────────── */}
+        {/* ── Minimal Hold / Tap Button ────────────────────────────────────── */}
         {!isRevealed && (
-          <div
-            style={{
-              marginTop: "16px",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
-          >
+          <div style={{ marginTop: "18px" }}>
             <button
               onMouseDown={startHold}
               onMouseUp={cancelHold}
@@ -478,23 +500,21 @@ export default function Seq5EndOverlay({
               onClick={() => setIsRevealed(true)}
               style={{
                 position: "relative",
-                background: "linear-gradient(135deg, #d4a853, #b5831e)",
-                color: "#181006",
-                border: "none",
+                background: "rgba(255, 255, 255, 0.8)",
+                color: "#5e4514",
+                border: "1px solid rgba(181, 131, 30, 0.4)",
                 borderRadius: "50px",
-                padding: "10px 24px",
+                padding: "8px 20px",
                 fontFamily: "var(--font-crimson)",
-                fontSize: "0.7rem",
+                fontSize: "0.65rem",
                 fontWeight: 600,
-                letterSpacing: "0.25em",
+                letterSpacing: "0.22em",
                 textTransform: "uppercase",
                 cursor: "pointer",
-                boxShadow: "0 4px 15px rgba(212, 168, 83, 0.3)",
                 overflow: "hidden",
-                transition: "transform 0.2s ease, boxShadow 0.2s ease",
+                transition: "all 0.25s ease",
               }}
             >
-              {/* Charge fill animation */}
               <div
                 style={{
                   position: "absolute",
@@ -502,32 +522,34 @@ export default function Seq5EndOverlay({
                   top: 0,
                   bottom: 0,
                   width: `${holdProgress}%`,
-                  background: "rgba(255, 255, 255, 0.4)",
+                  background: "rgba(212, 168, 83, 0.25)",
                   transition: "width 0.05s linear",
                 }}
               />
               <span style={{ position: "relative", zIndex: 1 }}>
-                ✨ Hold / Tap to Reveal Countdown
+                ✦ Hold / Tap to Reveal Countdown
               </span>
             </button>
           </div>
         )}
 
-        {/* Scroll indicator hint */}
+        {/* Minimal Scroll Indicator */}
         <div
           style={{
-            marginTop: "32px",
+            marginTop: "auto",
+            marginBottom: "max(4vh, 24px)",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: "6px",
+            paddingTop: "24px",
           }}
         >
           <div
             style={{
               width: "1px",
-              height: "24px",
-              background: "linear-gradient(to bottom, rgba(212,168,83,0.8), transparent)",
+              height: "28px",
+              background: "linear-gradient(to bottom, rgba(181,131,30,0.8), transparent)",
               animation: "pulseLine5 2s ease-in-out infinite",
             }}
           />
@@ -543,10 +565,10 @@ export default function Seq5EndOverlay({
               fontSize: "0.55rem",
               letterSpacing: "0.3em",
               textTransform: "uppercase",
-              color: "rgba(212,168,83,0.75)",
+              color: "rgba(181,131,30,0.8)",
             }}
           >
-            Scroll to view venue map &amp; location
+            Scroll to view venue location
           </span>
         </div>
       </div>
