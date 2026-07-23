@@ -185,16 +185,16 @@ export default function SequencePlayer({
     const SEQ6_END = SEQ6_START + SEQ6_SCROLL_HEIGHT; // 26448px
     const SEQ6_PIN_END = SEQ6_END + SEQ6_PIN_SCROLL_HEIGHT; // 29648px
 
-    // Hero text starts appearing at frame 300 of seq1 (2400px)
-    const HERO_REVEAL_FRAME = 300;
-    const HERO_REVEAL_SCROLL = HERO_REVEAL_FRAME * PX_PER_FRAME; // 2400px
-    const HERO_REVEAL_TOTAL = SEQ1_END - HERO_REVEAL_SCROLL; // 1440px (reaches 100% at frame 480)
+    // Hero text starts appearing at frame 320 of seq1 (2560px)
+    const HERO_REVEAL_FRAME = 320;
+    const HERO_REVEAL_SCROLL = HERO_REVEAL_FRAME * PX_PER_FRAME; // 2560px
+    const HERO_REVEAL_TOTAL = SEQ1_END - HERO_REVEAL_SCROLL; // 1280px (reaches 100% at frame 480)
 
     function updateFromScroll() {
       const scrollY = window.scrollY;
 
       if (scrollY < HERO_REVEAL_SCROLL) {
-        // ── Phase 1a: Sequence 1 before frame 300 — no hero text
+        // ── Phase 1a: Sequence 1 before frame 320 — no hero text
         const frame = clamp(
           Math.floor(scrollY / PX_PER_FRAME),
           0,
@@ -209,7 +209,7 @@ export default function SequencePlayer({
         if (onSeq6PinChange) onSeq6PinChange(false, 0);
 
       } else if (scrollY < SEQ1_END) {
-        // ── Phase 1b: Sequence 1 frames 300→480 — hero text completely reveals before frame 480
+        // ── Phase 1b: Sequence 1 frames 320→480 — hero text completely reveals before frame 480
         const frame = clamp(
           Math.floor(scrollY / PX_PER_FRAME),
           0,
@@ -240,10 +240,21 @@ export default function SequencePlayer({
           heroFadeOut = clamp(1 - (seq2Scroll - 300) / 400, 0, 1);
         }
 
+        // Sequence 2 overlay starts appearing at frame 330 of Sequence 2 (330 * 8 = 2640px)
+        const SEQ2_REVEAL_SCROLL = 330 * PX_PER_FRAME; // 2640px
+        const SEQ2_REVEAL_TOTAL = SEQ2_SCROLL_HEIGHT - SEQ2_REVEAL_SCROLL; // 584px
+
+        let seq2Progress = 0;
+        let isSeq2Visible = false;
+        if (seq2Scroll >= SEQ2_REVEAL_SCROLL) {
+          isSeq2Visible = true;
+          seq2Progress = clamp((seq2Scroll - SEQ2_REVEAL_SCROLL) / SEQ2_REVEAL_TOTAL, 0, 1);
+        }
+
         if (onHeroPhaseChange) {
           onHeroPhaseChange(heroFadeOut > 0, 1, heroFadeOut);
         }
-        if (onSeq2PinChange) onSeq2PinChange(false, 0);
+        if (onSeq2PinChange) onSeq2PinChange(isSeq2Visible, seq2Progress, 1);
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
         if (onSeq4PinChange) onSeq4PinChange(false, 0);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
@@ -276,15 +287,26 @@ export default function SequencePlayer({
         );
         targetFrame = SEQ1_TOTAL + SEQ2_TOTAL + seq3Frame;
 
-        // Seq2 overlay fade out: stays 100% visible for first 400px of Seq 3 (~50 frames), then slowly fades out 400px -> 900px
+        // Seq2 overlay fade out: stays 100% visible for first 400px of Seq 3 (~50 frames), then slowly fades out 400px -> 800px
         let seq2FadeOut = 1;
         if (seq3Scroll > 400) {
-          seq2FadeOut = clamp(1 - (seq3Scroll - 400) / 500, 0, 1);
+          seq2FadeOut = clamp(1 - (seq3Scroll - 400) / 400, 0, 1);
+        }
+
+        // Sequence 3 overlay starts appearing at frame 220 of Sequence 3 (220 * 8 = 1760px)
+        const SEQ3_REVEAL_SCROLL = 220 * PX_PER_FRAME; // 1760px
+        const SEQ3_REVEAL_TOTAL = SEQ3_SCROLL_HEIGHT - SEQ3_REVEAL_SCROLL; // 320px
+
+        let seq3Progress = 0;
+        let isSeq3Visible = false;
+        if (seq3Scroll >= SEQ3_REVEAL_SCROLL) {
+          isSeq3Visible = true;
+          seq3Progress = clamp((seq3Scroll - SEQ3_REVEAL_SCROLL) / SEQ3_REVEAL_TOTAL, 0, 1);
         }
 
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(seq2FadeOut > 0, 1, seq2FadeOut);
-        if (onSeq3PinChange) onSeq3PinChange(false, 0);
+        if (onSeq3PinChange) onSeq3PinChange(isSeq3Visible, seq3Progress, 1);
         if (onSeq4PinChange) onSeq4PinChange(false, 0);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
         if (onSeq6PinChange) onSeq6PinChange(false, 0);
@@ -316,15 +338,15 @@ export default function SequencePlayer({
         );
         targetFrame = SEQ1_TOTAL + SEQ2_TOTAL + SEQ3_TOTAL + seq4Frame;
 
-        // Seq3 overlay fade out: stays 100% visible for first 400px of Seq 4 (~50 frames), then slowly fades out 400px -> 900px
+        // Seq3 overlay fade out: stays 100% visible for first 400px of Seq 4 (~50 frames), then slowly fades out 400px -> 800px
         let seq3FadeOut = 1;
         if (seq4Scroll > 400) {
-          seq3FadeOut = clamp(1 - (seq4Scroll - 400) / 500, 0, 1);
+          seq3FadeOut = clamp(1 - (seq4Scroll - 400) / 400, 0, 1);
         }
 
-        // Couple overlay starts appearing at frame 360 of Sequence 4 (2880px scroll into Seq 4)
-        const SEQ4_REVEAL_SCROLL = 360 * PX_PER_FRAME; // 2880px
-        const SEQ4_REVEAL_TOTAL = SEQ4_SCROLL_HEIGHT - SEQ4_REVEAL_SCROLL; // 960px
+        // Couple overlay starts appearing at frame 300 of Sequence 4 (300 * 8 = 2400px)
+        const SEQ4_REVEAL_SCROLL = 300 * PX_PER_FRAME; // 2400px
+        const SEQ4_REVEAL_TOTAL = SEQ4_SCROLL_HEIGHT - SEQ4_REVEAL_SCROLL; // 1440px
 
         let seq4Progress = 0;
         let isSeq4Visible = false;
@@ -373,9 +395,9 @@ export default function SequencePlayer({
           seq4FadeOut = clamp(1 - (seq5Scroll - 400) / 400, 0, 1);
         }
 
-        // Sequence 5 overlay starts appearing from frame 110 of Sequence 5 (110 * 8 = 880px)
-        const SEQ5_REVEAL_SCROLL = 110 * PX_PER_FRAME; // 880px
-        const SEQ5_REVEAL_TOTAL = SEQ5_SCROLL_HEIGHT - SEQ5_REVEAL_SCROLL; // 1024px
+        // Sequence 5 overlay starts appearing from frame 150 of Sequence 5 (150 * 8 = 1200px)
+        const SEQ5_REVEAL_SCROLL = 150 * PX_PER_FRAME; // 1200px
+        const SEQ5_REVEAL_TOTAL = SEQ5_SCROLL_HEIGHT - SEQ5_REVEAL_SCROLL; // 704px
 
         let seq5Progress = 0;
         let isSeq5Visible = false;
