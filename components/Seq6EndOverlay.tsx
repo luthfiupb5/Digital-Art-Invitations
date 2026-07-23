@@ -34,7 +34,7 @@ export default function Seq6EndOverlay({
     if (contentRef.current) {
       const contentOpacity = Math.min(Math.max(0, (progress - 0.04) / 0.15), 1);
       contentRef.current.style.opacity = String(contentOpacity);
-      contentRef.current.style.transform = `translateY(${(1 - contentOpacity) * 16}px)`;
+      contentRef.current.style.transform = `translateY(${(1 - contentOpacity) * 12}px)`;
     }
   }, [progress]);
 
@@ -49,29 +49,29 @@ export default function Seq6EndOverlay({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center", // Centered vertically & horizontally in middle of page
-        paddingLeft: "24px",
-        paddingRight: "24px",
+        justifyContent: "center", // Centered vertically & horizontally
+        paddingLeft: "16px",
+        paddingRight: "16px",
         pointerEvents: "none",
         opacity: 0,
         transition: "opacity 0.5s ease",
       }}
     >
-      {/* ── Soft Radial White Shade Background Overlay ───────────────────── */}
+      {/* ── Compact Soft Radial White Shade Background Overlay ──────────── */}
       <div
         ref={radialShadeRef}
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse 85% 75% at 50% 50%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0) 90%)",
+            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.75) 45%, rgba(255,255,255,0) 80%)",
           pointerEvents: "none",
           zIndex: -1,
           opacity: 0,
         }}
       />
 
-      {/* ── Main Content Block (Centered) ─────────────────────────────────── */}
+      {/* ── Compact Main Content Block (Centered) ─────────────────────────── */}
       <div
         ref={contentRef}
         style={{
@@ -79,10 +79,10 @@ export default function Seq6EndOverlay({
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          maxWidth: "460px",
+          maxWidth: "340px",
           width: "100%",
           opacity: 0,
-          transform: "translateY(16px)",
+          transform: "translateY(12px)",
           transition: "transform 0.4s ease, opacity 0.4s ease",
         }}
       >
@@ -90,11 +90,11 @@ export default function Seq6EndOverlay({
         <div
           style={{
             fontFamily: "var(--font-crimson)",
-            fontSize: "0.62rem",
-            letterSpacing: "0.42em",
+            fontSize: "0.58rem",
+            letterSpacing: "0.38em",
             textTransform: "uppercase",
             color: "#b5831e",
-            marginBottom: "12px",
+            marginBottom: "6px",
           }}
         >
           ✦ Event Location ✦
@@ -105,12 +105,12 @@ export default function Seq6EndOverlay({
           style={{
             fontFamily: "var(--font-cormorant)",
             fontStyle: "italic",
-            fontSize: "clamp(2.2rem, 8.5vw, 3.2rem)",
+            fontSize: "clamp(1.7rem, 6vw, 2.3rem)",
             fontWeight: 400,
-            lineHeight: 1.05,
+            lineHeight: 1.1,
             color: "#1f1816",
             letterSpacing: "0.02em",
-            margin: "0 0 6px 0",
+            margin: "0 0 4px 0",
           }}
         >
           The Grand Palace Garden
@@ -121,10 +121,10 @@ export default function Seq6EndOverlay({
           style={{
             fontFamily: "var(--font-crimson)",
             fontWeight: 400,
-            fontSize: "0.88rem",
-            letterSpacing: "0.08em",
+            fontSize: "0.78rem",
+            letterSpacing: "0.06em",
             color: "#6b5443",
-            marginBottom: "16px",
+            marginBottom: "12px",
           }}
         >
           Marine Drive, Mumbai, Maharashtra 400002
@@ -133,25 +133,25 @@ export default function Seq6EndOverlay({
         {/* Gold Line Divider */}
         <div
           style={{
-            width: "50px",
+            width: "40px",
             height: "1px",
             background:
               "linear-gradient(90deg, transparent, rgba(181,131,30,0.7), transparent)",
-            marginBottom: "20px",
+            marginBottom: "14px",
           }}
         />
 
-        {/* Embedded Google Map */}
+        {/* Compact Embedded Google Map */}
         <div
           style={{
             width: "100%",
-            maxWidth: "420px",
-            height: "220px",
-            borderRadius: "16px",
+            maxWidth: "320px",
+            height: "150px",
+            borderRadius: "12px",
             overflow: "hidden",
             border: "1px solid rgba(181,131,30,0.35)",
-            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.08)",
-            marginBottom: "20px",
+            boxShadow: "0 6px 20px rgba(0, 0, 0, 0.08)",
+            marginBottom: "14px",
           }}
         >
           <iframe
@@ -166,7 +166,7 @@ export default function Seq6EndOverlay({
           />
         </div>
 
-        {/* Get Directions Button */}
+        {/* Compact Get Directions Button */}
         <div>
           <a
             href="https://maps.google.com/?q=Marine+Drive+Mumbai"
@@ -175,19 +175,19 @@ export default function Seq6EndOverlay({
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "8px",
+              gap: "6px",
               fontFamily: "var(--font-crimson)",
-              fontSize: "0.7rem",
+              fontSize: "0.62rem",
               fontWeight: 600,
-              letterSpacing: "0.25em",
+              letterSpacing: "0.22em",
               textTransform: "uppercase",
               color: "#5e4514",
               textDecoration: "none",
               border: "1px solid rgba(181,131,30,0.5)",
               borderRadius: "50px",
-              padding: "10px 24px",
+              padding: "7px 18px",
               background: "rgba(255, 255, 255, 0.85)",
-              boxShadow: "0 4px 14px rgba(181,131,30,0.15)",
+              boxShadow: "0 3px 10px rgba(181,131,30,0.12)",
               transition: "all 0.3s ease",
             }}
           >
