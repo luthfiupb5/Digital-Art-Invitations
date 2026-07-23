@@ -200,6 +200,22 @@ export default function Home() {
 
   return (
     <>
+      {/* ── Desktop Side Panel Luxury Badges (Visible on desktop screens) ── */}
+      <div className="desktop-side-badge-left">
+        <span>✦</span>
+        <span>Aisha</span>
+        <span>&amp;</span>
+        <span>Zayd</span>
+        <span>✦</span>
+      </div>
+      <div className="desktop-side-badge-right">
+        <span>✦</span>
+        <span>Wedding</span>
+        <span>Invitation</span>
+        <span>14 · 02 · 2026</span>
+        <span>✦</span>
+      </div>
+
       {/* ── Fixed Canvas (z:0) — renders all 2375 frames ─────────────── */}
       <SequencePlayer
         onHeroPhaseChange={handleHeroPhaseChange}
