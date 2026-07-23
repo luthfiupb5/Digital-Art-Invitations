@@ -7,17 +7,20 @@ import {
   SEQ3_TOTAL,
   SEQ4_TOTAL,
   SEQ5_TOTAL,
+  SEQ6_TOTAL,
   TOTAL_FRAMES,
   SEQ1_SCROLL_HEIGHT,
   SEQ2_SCROLL_HEIGHT,
   SEQ3_SCROLL_HEIGHT,
   SEQ4_SCROLL_HEIGHT,
   SEQ5_SCROLL_HEIGHT,
+  SEQ6_SCROLL_HEIGHT,
   HERO_PIN_SCROLL_HEIGHT,
   SEQ2_PIN_SCROLL_HEIGHT,
   SEQ3_PIN_SCROLL_HEIGHT,
   SEQ4_PIN_SCROLL_HEIGHT,
   SEQ5_PIN_SCROLL_HEIGHT,
+  SEQ6_PIN_SCROLL_HEIGHT,
   PX_PER_FRAME,
   getFrameUrl,
   preloadBatch,
@@ -30,6 +33,7 @@ interface SequencePlayerProps {
   onSeq3PinChange?: (inPinPhase: boolean, progress: number, fadeOut?: number) => void;
   onSeq4PinChange?: (inPinPhase: boolean, progress: number, fadeOut?: number) => void;
   onSeq5PinChange?: (inPinPhase: boolean, progress: number, fadeOut?: number) => void;
+  onSeq6PinChange?: (inPinPhase: boolean, progress: number, fadeOut?: number) => void;
   onSeq2Complete?: () => void;
 }
 
@@ -42,6 +46,7 @@ export default function SequencePlayer({
   onSeq3PinChange,
   onSeq4PinChange,
   onSeq5PinChange,
+  onSeq6PinChange,
   onSeq2Complete,
 }: SequencePlayerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -176,6 +181,9 @@ export default function SequencePlayer({
     const SEQ5_START = SEQ4_PIN_END; // 19584px
     const SEQ5_END = SEQ5_START + SEQ5_SCROLL_HEIGHT; // 21488px
     const SEQ5_PIN_END = SEQ5_END + SEQ5_PIN_SCROLL_HEIGHT; // 24288px
+    const SEQ6_START = SEQ5_PIN_END; // 24288px
+    const SEQ6_END = SEQ6_START + SEQ6_SCROLL_HEIGHT; // 26448px
+    const SEQ6_PIN_END = SEQ6_END + SEQ6_PIN_SCROLL_HEIGHT; // 29648px
 
     // Hero text starts appearing at frame 300 of seq1 (2400px)
     const HERO_REVEAL_FRAME = 300;
@@ -198,6 +206,7 @@ export default function SequencePlayer({
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
         if (onSeq4PinChange) onSeq4PinChange(false, 0);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
+        if (onSeq6PinChange) onSeq6PinChange(false, 0);
 
       } else if (scrollY < SEQ1_END) {
         // ── Phase 1b: Sequence 1 frames 300→480 — hero text completely reveals before frame 480
@@ -213,6 +222,7 @@ export default function SequencePlayer({
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
         if (onSeq4PinChange) onSeq4PinChange(false, 0);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
+        if (onSeq6PinChange) onSeq6PinChange(false, 0);
 
       } else if (scrollY < SEQ2_END) {
         // ── Phase 2: Sequence 2 scrubbing — starts IMMEDIATELY after Seq 1 final frame!
@@ -237,6 +247,7 @@ export default function SequencePlayer({
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
         if (onSeq4PinChange) onSeq4PinChange(false, 0);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
+        if (onSeq6PinChange) onSeq6PinChange(false, 0);
 
         // Proactively preload ahead
         const preloadAhead = Math.min(targetFrame + 40, TOTAL_FRAMES - 1);
@@ -253,6 +264,7 @@ export default function SequencePlayer({
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
         if (onSeq4PinChange) onSeq4PinChange(false, 0);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
+        if (onSeq6PinChange) onSeq6PinChange(false, 0);
 
       } else if (scrollY < SEQ3_END) {
         // ── Phase 4: Sequence 3 scrubbing — frames 883 -> 1142
@@ -275,6 +287,7 @@ export default function SequencePlayer({
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
         if (onSeq4PinChange) onSeq4PinChange(false, 0);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
+        if (onSeq6PinChange) onSeq6PinChange(false, 0);
 
         // Proactively preload ahead
         const preloadAhead = Math.min(targetFrame + 40, TOTAL_FRAMES - 1);
@@ -291,6 +304,7 @@ export default function SequencePlayer({
         if (onSeq3PinChange) onSeq3PinChange(true, clamp(pinProgress3, 0, 1), 1);
         if (onSeq4PinChange) onSeq4PinChange(false, 0);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
+        if (onSeq6PinChange) onSeq6PinChange(false, 0);
 
       } else if (scrollY < SEQ4_END) {
         // ── Phase 6: Sequence 4 scrubbing — frames 1143 -> 1622
@@ -324,6 +338,7 @@ export default function SequencePlayer({
         if (onSeq3PinChange) onSeq3PinChange(seq3FadeOut > 0, 1, seq3FadeOut);
         if (onSeq4PinChange) onSeq4PinChange(isSeq4Visible, seq4Progress, 1);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
+        if (onSeq6PinChange) onSeq6PinChange(false, 0);
 
         // Proactively preload ahead
         const preloadAhead = Math.min(targetFrame + 40, TOTAL_FRAMES - 1);
@@ -340,6 +355,7 @@ export default function SequencePlayer({
         if (onSeq3PinChange) onSeq3PinChange(false, 1);
         if (onSeq4PinChange) onSeq4PinChange(true, clamp(pinProgress4, 0, 1), 1);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
+        if (onSeq6PinChange) onSeq6PinChange(false, 0);
 
       } else if (scrollY < SEQ5_END) {
         // ── Phase 8: Sequence 5 scrubbing — frames 1623 -> 1860
@@ -362,6 +378,7 @@ export default function SequencePlayer({
         if (onSeq3PinChange) onSeq3PinChange(false, 1);
         if (onSeq4PinChange) onSeq4PinChange(seq4FadeOut > 0, 1, seq4FadeOut);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
+        if (onSeq6PinChange) onSeq6PinChange(false, 0);
 
         // Proactively preload ahead
         const preloadAhead = Math.min(targetFrame + 40, TOTAL_FRAMES - 1);
@@ -371,22 +388,65 @@ export default function SequencePlayer({
 
       } else if (scrollY < SEQ5_PIN_END) {
         // ── Phase 9: Sequence 5 PIN phase — hold final frame of sequence 5 (frame 1860) & reveal Wedding Countdown
-        targetFrame = TOTAL_FRAMES - 1; // 1860
+        targetFrame = SEQ1_TOTAL + SEQ2_TOTAL + SEQ3_TOTAL + SEQ4_TOTAL + SEQ5_TOTAL - 1; // 1860
         const pinProgress5 = (scrollY - SEQ5_END) / SEQ5_PIN_SCROLL_HEIGHT;
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(false, 1);
         if (onSeq3PinChange) onSeq3PinChange(false, 1);
         if (onSeq4PinChange) onSeq4PinChange(false, 1);
         if (onSeq5PinChange) onSeq5PinChange(true, clamp(pinProgress5, 0, 1), 1);
+        if (onSeq6PinChange) onSeq6PinChange(false, 0);
+
+      } else if (scrollY < SEQ6_END) {
+        // ── Phase 10: Sequence 6 scrubbing — frames 1861 -> 2130
+        const seq6Scroll = scrollY - SEQ6_START;
+        const seq6Frame = clamp(
+          Math.floor(seq6Scroll / PX_PER_FRAME),
+          0,
+          SEQ6_TOTAL - 1
+        );
+        targetFrame =
+          SEQ1_TOTAL + SEQ2_TOTAL + SEQ3_TOTAL + SEQ4_TOTAL + SEQ5_TOTAL + seq6Frame;
+
+        // Seq5 overlay fade out: stays visible for first 400px of Seq 6, then slowly fades out 400px -> 900px
+        let seq5FadeOut = 1;
+        if (seq6Scroll > 400) {
+          seq5FadeOut = clamp(1 - (seq6Scroll - 400) / 500, 0, 1);
+        }
+
+        if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
+        if (onSeq2PinChange) onSeq2PinChange(false, 1);
+        if (onSeq3PinChange) onSeq3PinChange(false, 1);
+        if (onSeq4PinChange) onSeq4PinChange(false, 1);
+        if (onSeq5PinChange) onSeq5PinChange(seq5FadeOut > 0, 1, seq5FadeOut);
+        if (onSeq6PinChange) onSeq6PinChange(false, 0);
+
+        // Proactively preload ahead
+        const preloadAhead = Math.min(targetFrame + 40, TOTAL_FRAMES - 1);
+        if (!imageCache.current[preloadAhead]) {
+          preloadBatch(imageCache.current, targetFrame, 40);
+        }
+
+      } else if (scrollY < SEQ6_PIN_END) {
+        // ── Phase 11: Sequence 6 PIN phase — hold final frame of sequence 6 (frame 2130) & reveal Location Map
+        targetFrame = TOTAL_FRAMES - 1; // 2130
+        const pinProgress6 = (scrollY - SEQ6_END) / SEQ6_PIN_SCROLL_HEIGHT;
+        if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
+        if (onSeq2PinChange) onSeq2PinChange(false, 1);
+        if (onSeq3PinChange) onSeq3PinChange(false, 1);
+        if (onSeq4PinChange) onSeq4PinChange(false, 1);
+        if (onSeq5PinChange) onSeq5PinChange(false, 1);
+        if (onSeq6PinChange) onSeq6PinChange(true, clamp(pinProgress6, 0, 1), 1);
 
       } else {
-        // ── Phase 9: Past sequence 5 pin — hold final frame as resting backdrop
+        // ── Phase 12: Past sequence 6 pin — hold final frame as resting backdrop
         targetFrame = TOTAL_FRAMES - 1;
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(false, 1);
         if (onSeq3PinChange) onSeq3PinChange(false, 1);
         if (onSeq4PinChange) onSeq4PinChange(false, 1);
         if (onSeq5PinChange) onSeq5PinChange(false, 1);
+        if (onSeq6PinChange) onSeq6PinChange(false, 1);
         if (!seq2CompleteCalledRef.current) {
           seq2CompleteCalledRef.current = true;
           if (onSeq2Complete) onSeq2Complete();

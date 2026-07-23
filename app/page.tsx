@@ -8,11 +8,13 @@ import {
   SEQ3_SCROLL_HEIGHT,
   SEQ4_SCROLL_HEIGHT,
   SEQ5_SCROLL_HEIGHT,
+  SEQ6_SCROLL_HEIGHT,
   HERO_PIN_SCROLL_HEIGHT,
   SEQ2_PIN_SCROLL_HEIGHT,
   SEQ3_PIN_SCROLL_HEIGHT,
   SEQ4_PIN_SCROLL_HEIGHT,
   SEQ5_PIN_SCROLL_HEIGHT,
+  SEQ6_PIN_SCROLL_HEIGHT,
 } from "@/lib/frameUtils";
 
 // Dynamic imports for code splitting
@@ -34,12 +36,14 @@ const Seq4EndOverlay = dynamic(() => import("@/components/Seq4EndOverlay"), {
 const Seq5EndOverlay = dynamic(() => import("@/components/Seq5EndOverlay"), {
   ssr: false,
 });
+const Seq6EndOverlay = dynamic(() => import("@/components/Seq6EndOverlay"), {
+  ssr: false,
+});
 const AmbientLayer = dynamic(() => import("@/components/AmbientLayer"), {
   ssr: false,
 });
 
 // Content sections — lazy loaded
-const VenueSection = dynamic(() => import("@/components/VenueSection"), { ssr: false });
 const ThankYou = dynamic(() => import("@/components/ThankYou"), { ssr: false });
 
 // Total scroll heights
@@ -53,6 +57,8 @@ const SEQ4_H = SEQ4_SCROLL_HEIGHT;         // 3840px
 const SEQ4_PIN_H = SEQ4_PIN_SCROLL_HEIGHT; // 2400px
 const SEQ5_H = SEQ5_SCROLL_HEIGHT;         // 1904px
 const SEQ5_PIN_H = SEQ5_PIN_SCROLL_HEIGHT; // 2800px
+const SEQ6_H = SEQ6_SCROLL_HEIGHT;         // 2160px
+const SEQ6_PIN_H = SEQ6_PIN_SCROLL_HEIGHT; // 3200px
 
 export default function Home() {
   const [heroPhase, setHeroPhase] = useState(false);
@@ -70,6 +76,9 @@ export default function Home() {
   const [seq5PinPhase, setSeq5PinPhase] = useState(false);
   const [seq5PinProgress, setSeq5PinProgress] = useState(0);
   const [seq5FadeOut, setSeq5FadeOut] = useState(1);
+  const [seq6PinPhase, setSeq6PinPhase] = useState(false);
+  const [seq6PinProgress, setSeq6PinProgress] = useState(0);
+  const [seq6FadeOut, setSeq6FadeOut] = useState(1);
 
   const handleHeroPhaseChange = useCallback(
     (inHeroPhase: boolean, progress: number, fadeOut: number = 1) => {
@@ -112,6 +121,15 @@ export default function Home() {
       setSeq5PinPhase(inPinPhase);
       setSeq5PinProgress(progress);
       setSeq5FadeOut(fadeOut);
+    },
+    []
+  );
+
+  const handleSeq6PinChange = useCallback(
+    (inPinPhase: boolean, progress: number, fadeOut: number = 1) => {
+      setSeq6PinPhase(inPinPhase);
+      setSeq6PinProgress(progress);
+      setSeq6FadeOut(fadeOut);
     },
     []
   );
@@ -166,13 +184,14 @@ export default function Home() {
 
   return (
     <>
-      {/* ── Fixed Canvas (z:0) — renders all 1861 frames ─────────────── */}
+      {/* ── Fixed Canvas (z:0) — renders all 2131 frames ─────────────── */}
       <SequencePlayer
         onHeroPhaseChange={handleHeroPhaseChange}
         onSeq2PinChange={handleSeq2PinChange}
         onSeq3PinChange={handleSeq3PinChange}
         onSeq4PinChange={handleSeq4PinChange}
         onSeq5PinChange={handleSeq5PinChange}
+        onSeq6PinChange={handleSeq6PinChange}
         onSeq2Complete={handleSeq2Complete}
       />
 
@@ -193,6 +212,9 @@ export default function Home() {
 
       {/* ── Seq5 final frame pin overlay (z:2) — interactive wedding details & live countdown ── */}
       <Seq5EndOverlay isVisible={seq5PinPhase} progress={seq5PinProgress} fadeOut={seq5FadeOut} />
+
+      {/* ── Seq6 final frame pin overlay (z:2) — centered event location map & directions ── */}
+      <Seq6EndOverlay isVisible={seq6PinPhase} progress={seq6PinProgress} fadeOut={seq6FadeOut} />
 
       {/* ── Scroll root — defines page height ─────────────────────────── */}
       <div id="scroll-root" style={{ position: "relative", zIndex: 1 }}>
@@ -218,14 +240,20 @@ export default function Home() {
         {/* Sequence 4 spacer */}
         <div aria-hidden="true" style={{ height: SEQ4_H + "px", width: "100%" }} />
 
-        {/* Sequence 4 pin spacer — pins final frame of sequence 4 for couple & parents details */}
+        {/* Sequence 4 pin spacer */}
         <div aria-hidden="true" style={{ height: SEQ4_PIN_H + "px", width: "100%" }} />
 
         {/* Sequence 5 spacer */}
         <div aria-hidden="true" style={{ height: SEQ5_H + "px", width: "100%" }} />
 
-        {/* Sequence 5 pin spacer — pins final frame of sequence 5 for countdown reveal */}
+        {/* Sequence 5 pin spacer */}
         <div aria-hidden="true" style={{ height: SEQ5_PIN_H + "px", width: "100%" }} />
+
+        {/* Sequence 6 spacer */}
+        <div aria-hidden="true" style={{ height: SEQ6_H + "px", width: "100%" }} />
+
+        {/* Sequence 6 pin spacer — pins final frame of sequence 6 for location map */}
+        <div aria-hidden="true" style={{ height: SEQ6_PIN_H + "px", width: "100%" }} />
 
         {/* ── Content sections — resting ending sections ─── */}
         <div
@@ -247,9 +275,6 @@ export default function Home() {
               zIndex: 0,
             }}
           />
-
-          {/* Venue + Map */}
-          <VenueSection />
 
           {/* Thank You */}
           <ThankYou />
