@@ -426,18 +426,18 @@ body {
 /* ─── Music Toggle Button (Covers Bottom-Right Star Icon) ─────────────────── */
 #music-toggle-container {
   position: fixed;
-  bottom: 22px;
-  right: 22px;
+  bottom: 18px;
+  right: 24px;
   z-index: 100;
 }
 
 .music-toggle-btn {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background: rgba(16, 12, 10, 0.94);
-  border: 1px solid rgba(212, 168, 83, 0.65);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.75), 0 0 14px rgba(181, 131, 30, 0.25);
+  background: rgba(16, 12, 10, 0.95);
+  border: 1px solid rgba(212, 168, 83, 0.7);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.85), 0 0 16px rgba(181, 131, 30, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -450,7 +450,7 @@ body {
 .music-toggle-btn:hover {
   transform: scale(1.08);
   border-color: rgba(255, 217, 122, 0.9);
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.85), 0 0 20px rgba(255, 217, 122, 0.4);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.9), 0 0 22px rgba(255, 217, 122, 0.45);
 }
 
 .music-toggle-btn:active {
@@ -484,8 +484,8 @@ body {
 
 @media (min-width: 501px) {
   #music-toggle-container {
-    right: max(22px, calc(50vw - 203px)) !important;
-    bottom: 22px !important;
+    right: max(24px, calc(50vw - 201px)) !important;
+    bottom: 18px !important;
   }
 }
 
