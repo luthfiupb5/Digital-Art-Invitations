@@ -226,14 +226,17 @@ export default function Seq5EndOverlay({
         transition: "opacity 0.5s ease",
       }}
     >
-      {/* ── Compact Soft Radial White Shade Overlay ─────────────────────── */}
+      {/* ── Soft White Sky Gradient Fade (Top-Only) ─────────────────────── */}
       <div
         ref={skyGradRef}
         style={{
           position: "absolute",
-          inset: 0,
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "75%",
           background:
-            "radial-gradient(ellipse 65% 55% at 50% 45%, rgba(255,255,255,0.93) 0%, rgba(255,255,255,0.75) 45%, rgba(255,255,255,0) 80%)",
+            "linear-gradient(to bottom, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.82) 60%, rgba(255,255,255,0) 100%)",
           pointerEvents: "none",
           zIndex: -1,
           opacity: 0,

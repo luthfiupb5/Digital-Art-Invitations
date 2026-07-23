@@ -367,17 +367,28 @@ export default function SequencePlayer({
         );
         targetFrame = SEQ1_TOTAL + SEQ2_TOTAL + SEQ3_TOTAL + SEQ4_TOTAL + seq5Frame;
 
-        // Seq4 overlay fade out: stays visible for first 400px of Seq 5, then slowly fades out 400px -> 900px
+        // Seq4 overlay fade out: stays visible for first 400px of Seq 5, then slowly fades out 400px -> 800px
         let seq4FadeOut = 1;
         if (seq5Scroll > 400) {
-          seq4FadeOut = clamp(1 - (seq5Scroll - 400) / 500, 0, 1);
+          seq4FadeOut = clamp(1 - (seq5Scroll - 400) / 400, 0, 1);
+        }
+
+        // Sequence 5 overlay starts appearing from frame 110 of Sequence 5 (110 * 8 = 880px)
+        const SEQ5_REVEAL_SCROLL = 110 * PX_PER_FRAME; // 880px
+        const SEQ5_REVEAL_TOTAL = SEQ5_SCROLL_HEIGHT - SEQ5_REVEAL_SCROLL; // 1024px
+
+        let seq5Progress = 0;
+        let isSeq5Visible = false;
+        if (seq5Scroll >= SEQ5_REVEAL_SCROLL) {
+          isSeq5Visible = true;
+          seq5Progress = clamp((seq5Scroll - SEQ5_REVEAL_SCROLL) / SEQ5_REVEAL_TOTAL, 0, 1);
         }
 
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(false, 1);
         if (onSeq3PinChange) onSeq3PinChange(false, 1);
         if (onSeq4PinChange) onSeq4PinChange(seq4FadeOut > 0, 1, seq4FadeOut);
-        if (onSeq5PinChange) onSeq5PinChange(false, 0);
+        if (onSeq5PinChange) onSeq5PinChange(isSeq5Visible, seq5Progress, 1);
         if (onSeq6PinChange) onSeq6PinChange(false, 0);
 
         // Proactively preload ahead
@@ -408,10 +419,21 @@ export default function SequencePlayer({
         targetFrame =
           SEQ1_TOTAL + SEQ2_TOTAL + SEQ3_TOTAL + SEQ4_TOTAL + SEQ5_TOTAL + seq6Frame;
 
-        // Seq5 overlay fade out: stays visible for first 400px of Seq 6, then slowly fades out 400px -> 900px
+        // Seq5 overlay fade out: stays visible for first 400px of Seq 6, then slowly fades out 400px -> 800px
         let seq5FadeOut = 1;
         if (seq6Scroll > 400) {
-          seq5FadeOut = clamp(1 - (seq6Scroll - 400) / 500, 0, 1);
+          seq5FadeOut = clamp(1 - (seq6Scroll - 400) / 400, 0, 1);
+        }
+
+        // Sequence 6 overlay starts appearing from frame 110 of Sequence 6 (110 * 8 = 880px)
+        const SEQ6_REVEAL_SCROLL = 110 * PX_PER_FRAME; // 880px
+        const SEQ6_REVEAL_TOTAL = SEQ6_SCROLL_HEIGHT - SEQ6_REVEAL_SCROLL; // 1280px
+
+        let seq6Progress = 0;
+        let isSeq6Visible = false;
+        if (seq6Scroll >= SEQ6_REVEAL_SCROLL) {
+          isSeq6Visible = true;
+          seq6Progress = clamp((seq6Scroll - SEQ6_REVEAL_SCROLL) / SEQ6_REVEAL_TOTAL, 0, 1);
         }
 
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
@@ -419,7 +441,7 @@ export default function SequencePlayer({
         if (onSeq3PinChange) onSeq3PinChange(false, 1);
         if (onSeq4PinChange) onSeq4PinChange(false, 1);
         if (onSeq5PinChange) onSeq5PinChange(seq5FadeOut > 0, 1, seq5FadeOut);
-        if (onSeq6PinChange) onSeq6PinChange(false, 0);
+        if (onSeq6PinChange) onSeq6PinChange(isSeq6Visible, seq6Progress, 1);
 
         // Proactively preload ahead
         const preloadAhead = Math.min(targetFrame + 40, TOTAL_FRAMES - 1);
