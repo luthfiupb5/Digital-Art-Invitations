@@ -17,7 +17,7 @@ export const SEQ5_SCROLL_HEIGHT = SEQ5_TOTAL * PX_PER_FRAME; // 1904px
 export const HERO_PIN_SCROLL_HEIGHT = 0;       // no pin after seq1 — seq2 starts immediately
 export const SEQ2_PIN_SCROLL_HEIGHT = 1800;   // pin after seq2 — white sky fade & minimal details reveal here
 export const SEQ3_PIN_SCROLL_HEIGHT = 2400;   // pin after seq3 — white sky fade & minimal Our Story reveal here
-export const SEQ4_PIN_SCROLL_HEIGHT = 0;      // no pin after seq4 — seq5 starts immediately
+export const SEQ4_PIN_SCROLL_HEIGHT = 2400;   // pin after seq4 — white sky fade & minimal Couple reveal here
 export const SEQ5_PIN_SCROLL_HEIGHT = 2800;   // pin after seq5 — interactive wedding details & countdown reveal here
 
 /**

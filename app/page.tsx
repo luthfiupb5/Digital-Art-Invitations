@@ -28,6 +28,9 @@ const Seq2EndOverlay = dynamic(() => import("@/components/Seq2EndOverlay"), {
 const Seq3EndOverlay = dynamic(() => import("@/components/Seq3EndOverlay"), {
   ssr: false,
 });
+const Seq4EndOverlay = dynamic(() => import("@/components/Seq4EndOverlay"), {
+  ssr: false,
+});
 const Seq5EndOverlay = dynamic(() => import("@/components/Seq5EndOverlay"), {
   ssr: false,
 });
@@ -47,7 +50,7 @@ const SEQ2_PIN_H = SEQ2_PIN_SCROLL_HEIGHT; // 1800px
 const SEQ3_H = SEQ3_SCROLL_HEIGHT;         // 2080px
 const SEQ3_PIN_H = SEQ3_PIN_SCROLL_HEIGHT; // 2400px
 const SEQ4_H = SEQ4_SCROLL_HEIGHT;         // 3840px
-const SEQ4_PIN_H = SEQ4_PIN_SCROLL_HEIGHT; // 0px
+const SEQ4_PIN_H = SEQ4_PIN_SCROLL_HEIGHT; // 2400px
 const SEQ5_H = SEQ5_SCROLL_HEIGHT;         // 1904px
 const SEQ5_PIN_H = SEQ5_PIN_SCROLL_HEIGHT; // 2800px
 
@@ -61,6 +64,9 @@ export default function Home() {
   const [seq3PinPhase, setSeq3PinPhase] = useState(false);
   const [seq3PinProgress, setSeq3PinProgress] = useState(0);
   const [seq3FadeOut, setSeq3FadeOut] = useState(1);
+  const [seq4PinPhase, setSeq4PinPhase] = useState(false);
+  const [seq4PinProgress, setSeq4PinProgress] = useState(0);
+  const [seq4FadeOut, setSeq4FadeOut] = useState(1);
   const [seq5PinPhase, setSeq5PinPhase] = useState(false);
   const [seq5PinProgress, setSeq5PinProgress] = useState(0);
   const [seq5FadeOut, setSeq5FadeOut] = useState(1);
@@ -88,6 +94,15 @@ export default function Home() {
       setSeq3PinPhase(inPinPhase);
       setSeq3PinProgress(progress);
       setSeq3FadeOut(fadeOut);
+    },
+    []
+  );
+
+  const handleSeq4PinChange = useCallback(
+    (inPinPhase: boolean, progress: number, fadeOut: number = 1) => {
+      setSeq4PinPhase(inPinPhase);
+      setSeq4PinProgress(progress);
+      setSeq4FadeOut(fadeOut);
     },
     []
   );
@@ -156,6 +171,7 @@ export default function Home() {
         onHeroPhaseChange={handleHeroPhaseChange}
         onSeq2PinChange={handleSeq2PinChange}
         onSeq3PinChange={handleSeq3PinChange}
+        onSeq4PinChange={handleSeq4PinChange}
         onSeq5PinChange={handleSeq5PinChange}
         onSeq2Complete={handleSeq2Complete}
       />
@@ -171,6 +187,9 @@ export default function Home() {
 
       {/* ── Seq3 final frame pin overlay (z:2) — soft white sky fade & minimal Our Story ── */}
       <Seq3EndOverlay isVisible={seq3PinPhase} progress={seq3PinProgress} fadeOut={seq3FadeOut} />
+
+      {/* ── Seq4 final frame pin overlay (z:2) — Couple & Parents details ── */}
+      <Seq4EndOverlay isVisible={seq4PinPhase} progress={seq4PinProgress} fadeOut={seq4FadeOut} />
 
       {/* ── Seq5 final frame pin overlay (z:2) — interactive wedding details & live countdown ── */}
       <Seq5EndOverlay isVisible={seq5PinPhase} progress={seq5PinProgress} fadeOut={seq5FadeOut} />
@@ -199,7 +218,7 @@ export default function Home() {
         {/* Sequence 4 spacer */}
         <div aria-hidden="true" style={{ height: SEQ4_H + "px", width: "100%" }} />
 
-        {/* Sequence 4 pin spacer */}
+        {/* Sequence 4 pin spacer — pins final frame of sequence 4 for couple & parents details */}
         <div aria-hidden="true" style={{ height: SEQ4_PIN_H + "px", width: "100%" }} />
 
         {/* Sequence 5 spacer */}
