@@ -9,12 +9,14 @@ import {
   SEQ4_SCROLL_HEIGHT,
   SEQ5_SCROLL_HEIGHT,
   SEQ6_SCROLL_HEIGHT,
+  SEQ7_SCROLL_HEIGHT,
   HERO_PIN_SCROLL_HEIGHT,
   SEQ2_PIN_SCROLL_HEIGHT,
   SEQ3_PIN_SCROLL_HEIGHT,
   SEQ4_PIN_SCROLL_HEIGHT,
   SEQ5_PIN_SCROLL_HEIGHT,
   SEQ6_PIN_SCROLL_HEIGHT,
+  SEQ7_PIN_SCROLL_HEIGHT,
 } from "@/lib/frameUtils";
 
 // Dynamic imports for code splitting
@@ -39,12 +41,12 @@ const Seq5EndOverlay = dynamic(() => import("@/components/Seq5EndOverlay"), {
 const Seq6EndOverlay = dynamic(() => import("@/components/Seq6EndOverlay"), {
   ssr: false,
 });
+const Seq7EndOverlay = dynamic(() => import("@/components/Seq7EndOverlay"), {
+  ssr: false,
+});
 const AmbientLayer = dynamic(() => import("@/components/AmbientLayer"), {
   ssr: false,
 });
-
-// Content sections — lazy loaded
-const ThankYou = dynamic(() => import("@/components/ThankYou"), { ssr: false });
 
 // Total scroll heights
 const SEQ1_H = SEQ1_SCROLL_HEIGHT;         // 3840px
@@ -59,6 +61,8 @@ const SEQ5_H = SEQ5_SCROLL_HEIGHT;         // 1904px
 const SEQ5_PIN_H = SEQ5_PIN_SCROLL_HEIGHT; // 2800px
 const SEQ6_H = SEQ6_SCROLL_HEIGHT;         // 2160px
 const SEQ6_PIN_H = SEQ6_PIN_SCROLL_HEIGHT; // 3200px
+const SEQ7_H = SEQ7_SCROLL_HEIGHT;         // 1952px
+const SEQ7_PIN_H = SEQ7_PIN_SCROLL_HEIGHT; // 3200px
 
 export default function Home() {
   const [heroPhase, setHeroPhase] = useState(false);
@@ -79,6 +83,9 @@ export default function Home() {
   const [seq6PinPhase, setSeq6PinPhase] = useState(false);
   const [seq6PinProgress, setSeq6PinProgress] = useState(0);
   const [seq6FadeOut, setSeq6FadeOut] = useState(1);
+  const [seq7PinPhase, setSeq7PinPhase] = useState(false);
+  const [seq7PinProgress, setSeq7PinProgress] = useState(0);
+  const [seq7FadeOut, setSeq7FadeOut] = useState(1);
 
   const handleHeroPhaseChange = useCallback(
     (inHeroPhase: boolean, progress: number, fadeOut: number = 1) => {
@@ -134,6 +141,15 @@ export default function Home() {
     []
   );
 
+  const handleSeq7PinChange = useCallback(
+    (inPinPhase: boolean, progress: number, fadeOut: number = 1) => {
+      setSeq7PinPhase(inPinPhase);
+      setSeq7PinProgress(progress);
+      setSeq7FadeOut(fadeOut);
+    },
+    []
+  );
+
   const handleSeq2Complete = useCallback(() => {}, []);
 
   // Initialize Lenis smooth scroll
@@ -184,7 +200,7 @@ export default function Home() {
 
   return (
     <>
-      {/* ── Fixed Canvas (z:0) — renders all 2131 frames ─────────────── */}
+      {/* ── Fixed Canvas (z:0) — renders all 2375 frames ─────────────── */}
       <SequencePlayer
         onHeroPhaseChange={handleHeroPhaseChange}
         onSeq2PinChange={handleSeq2PinChange}
@@ -192,13 +208,14 @@ export default function Home() {
         onSeq4PinChange={handleSeq4PinChange}
         onSeq5PinChange={handleSeq5PinChange}
         onSeq6PinChange={handleSeq6PinChange}
+        onSeq7PinChange={handleSeq7PinChange}
         onSeq2Complete={handleSeq2Complete}
       />
 
       {/* ── Ambient particles (z:1) — active during hero pin ──────────── */}
       <AmbientLayer isActive={heroPhase} />
 
-      {/* ── Hero names + date overlay (z:2) — appears from frame 300 ──── */}
+      {/* ── Hero names + date overlay (z:2) — appears from frame 320 ──── */}
       <HeroOverlay isVisible={heroPhase} progress={heroProgress} fadeOut={heroFadeOut} />
 
       {/* ── Seq2 final frame pin overlay (z:2) — soft white sky fade & minimal details ── */}
@@ -215,6 +232,9 @@ export default function Home() {
 
       {/* ── Seq6 final frame pin overlay (z:2) — centered event location map & directions ── */}
       <Seq6EndOverlay isVisible={seq6PinPhase} progress={seq6PinProgress} fadeOut={seq6FadeOut} />
+
+      {/* ── Seq7 final frame pin overlay (z:2) — Thank You message & top overlay shade ── */}
+      <Seq7EndOverlay isVisible={seq7PinPhase} progress={seq7PinProgress} fadeOut={seq7FadeOut} />
 
       {/* ── Scroll root — defines page height ─────────────────────────── */}
       <div id="scroll-root" style={{ position: "relative", zIndex: 1 }}>
@@ -252,33 +272,14 @@ export default function Home() {
         {/* Sequence 6 spacer */}
         <div aria-hidden="true" style={{ height: SEQ6_H + "px", width: "100%" }} />
 
-        {/* Sequence 6 pin spacer — pins final frame of sequence 6 for location map */}
+        {/* Sequence 6 pin spacer */}
         <div aria-hidden="true" style={{ height: SEQ6_PIN_H + "px", width: "100%" }} />
 
-        {/* ── Content sections — resting ending sections ─── */}
-        <div
-          style={{
-            position: "relative",
-            zIndex: 3,
-          }}
-        >
-          {/* Transition bridge gradient */}
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              height: "120px",
-              background: "linear-gradient(to bottom, rgba(12,8,16,0), #150e04)",
-              pointerEvents: "none",
-              zIndex: 0,
-            }}
-          />
+        {/* Sequence 7 spacer */}
+        <div aria-hidden="true" style={{ height: SEQ7_H + "px", width: "100%" }} />
 
-          {/* Thank You */}
-          <ThankYou />
-        </div>
+        {/* Sequence 7 pin spacer — pins final frame of sequence 7 for Thank You overlay */}
+        <div aria-hidden="true" style={{ height: SEQ7_PIN_H + "px", width: "100%" }} />
       </div>
     </>
   );
