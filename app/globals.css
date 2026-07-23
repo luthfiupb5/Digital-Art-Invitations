@@ -423,3 +423,70 @@ body {
   }
 }
 
+/* ─── Music Toggle Button (Covers Bottom-Right Star Icon) ─────────────────── */
+#music-toggle-container {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 100;
+}
+
+.music-toggle-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(16, 12, 10, 0.94);
+  border: 1px solid rgba(212, 168, 83, 0.65);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.75), 0 0 14px rgba(181, 131, 30, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+}
+
+.music-toggle-btn:hover {
+  transform: scale(1.08);
+  border-color: rgba(255, 217, 122, 0.9);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.85), 0 0 20px rgba(255, 217, 122, 0.4);
+}
+
+.music-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* Equalizer Bars Animation */
+.eq-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 16px;
+}
+
+.eq-bar {
+  width: 3px;
+  background: linear-gradient(to top, #c49535, #ffd97a);
+  border-radius: 2px;
+  animation: eqBounce 1.2s ease-in-out infinite alternate;
+}
+
+.bar-1 { height: 14px; animation-delay: 0.1s; }
+.bar-2 { height: 10px; animation-delay: 0.4s; }
+.bar-3 { height: 16px; animation-delay: 0.2s; }
+.bar-4 { height: 8px;  animation-delay: 0.5s; }
+
+@keyframes eqBounce {
+  0% { transform: scaleY(0.3); }
+  100% { transform: scaleY(1.1); }
+}
+
+@media (min-width: 501px) {
+  #music-toggle-container {
+    right: max(22px, calc(50vw - 203px)) !important;
+    bottom: 22px !important;
+  }
+}
+
+

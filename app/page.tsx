@@ -47,6 +47,9 @@ const Seq7EndOverlay = dynamic(() => import("@/components/Seq7EndOverlay"), {
 const AmbientLayer = dynamic(() => import("@/components/AmbientLayer"), {
   ssr: false,
 });
+const MusicPlayer = dynamic(() => import("@/components/MusicPlayer"), {
+  ssr: false,
+});
 
 // Total scroll heights
 const SEQ1_H = SEQ1_SCROLL_HEIGHT;         // 3840px
@@ -251,6 +254,9 @@ export default function Home() {
 
       {/* ── Seq7 final frame pin overlay (z:2) — Thank You message & top overlay shade ── */}
       <Seq7EndOverlay isVisible={seq7PinPhase} progress={seq7PinProgress} fadeOut={seq7FadeOut} />
+
+      {/* ── Music Player & Bottom-Right Toggle Button (Covers star icon) ── */}
+      <MusicPlayer />
 
       {/* ── Scroll root — defines page height ─────────────────────────── */}
       <div id="scroll-root" style={{ position: "relative", zIndex: 1 }}>
