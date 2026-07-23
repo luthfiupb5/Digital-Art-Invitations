@@ -19,13 +19,13 @@ export const SEQ4_SCROLL_HEIGHT = SEQ4_TOTAL * PX_PER_FRAME; // 3840px
 export const SEQ5_SCROLL_HEIGHT = SEQ5_TOTAL * PX_PER_FRAME; // 1904px
 export const SEQ6_SCROLL_HEIGHT = SEQ6_TOTAL * PX_PER_FRAME; // 2160px
 export const SEQ7_SCROLL_HEIGHT = SEQ7_TOTAL * PX_PER_FRAME; // 1952px
-export const HERO_PIN_SCROLL_HEIGHT = 0;       // no pin after seq1 — seq2 starts immediately
-export const SEQ2_PIN_SCROLL_HEIGHT = 1800;   // pin after seq2 — white sky fade & minimal details reveal here
-export const SEQ3_PIN_SCROLL_HEIGHT = 2400;   // pin after seq3 — white sky fade & minimal Our Story reveal here
-export const SEQ4_PIN_SCROLL_HEIGHT = 2400;   // pin after seq4 — white sky fade & minimal Couple reveal here
-export const SEQ5_PIN_SCROLL_HEIGHT = 2800;   // pin after seq5 — interactive wedding details & countdown reveal here
-export const SEQ6_PIN_SCROLL_HEIGHT = 3200;   // pin after seq6 — event location map & directions reveal here
-export const SEQ7_PIN_SCROLL_HEIGHT = 3200;   // pin after seq7 — thank you overlay reveal here
+export const HERO_PIN_SCROLL_HEIGHT = 0;     // no pin after seq1 — seq2 starts immediately
+export const SEQ2_PIN_SCROLL_HEIGHT = 900;   // lighter pin hold time
+export const SEQ3_PIN_SCROLL_HEIGHT = 900;   // lighter pin hold time
+export const SEQ4_PIN_SCROLL_HEIGHT = 900;   // lighter pin hold time
+export const SEQ5_PIN_SCROLL_HEIGHT = 1100;  // light pin hold time for interactive countdown
+export const SEQ6_PIN_SCROLL_HEIGHT = 900;   // lighter pin hold time
+export const SEQ7_PIN_SCROLL_HEIGHT = 900;   // lighter pin hold time
 
 /**
  * Returns the URL path for a given unified frame index [0..2374].

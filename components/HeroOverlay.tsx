@@ -68,6 +68,20 @@ export default function HeroOverlay({ isVisible, progress, fadeOut = 1 }: HeroOv
         transition: "opacity 0.4s ease",
       }}
     >
+      {/* ── Soft Sunset Orange Sky Overlay Gradient ────────────────────── */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "80%",
+          background:
+            "linear-gradient(to bottom, rgba(235, 125, 45, 0.45) 0%, rgba(215, 95, 30, 0.22) 50%, rgba(0, 0, 0, 0) 100%)",
+          pointerEvents: "none",
+          zIndex: -1,
+        }}
+      />
 
       {/* Bride name */}
       <div
