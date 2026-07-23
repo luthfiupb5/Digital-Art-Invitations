@@ -278,11 +278,10 @@ export default function SequencePlayer({
         }
 
       } else if (scrollY < SEQ2_PIN_END) {
-        // ── Phase 3: Sequence 2 PIN phase — hold final frame of sequence 2 (frame 882) & reveal minimal details
+        // ── Phase 3: Sequence 2 PIN phase — hold final frame & keep overlay 100% visible (progress = 1)
         targetFrame = SEQ1_TOTAL + SEQ2_TOTAL - 1; // 882
-        const pinProgress = (scrollY - SEQ2_END) / SEQ2_PIN_SCROLL_HEIGHT;
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
-        if (onSeq2PinChange) onSeq2PinChange(true, clamp(pinProgress, 0, 1), 1);
+        if (onSeq2PinChange) onSeq2PinChange(true, 1, 1);
         if (onSeq3PinChange) onSeq3PinChange(false, 0);
         if (onSeq4PinChange) onSeq4PinChange(false, 0);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
@@ -331,12 +330,11 @@ export default function SequencePlayer({
         }
 
       } else if (scrollY < SEQ3_PIN_END) {
-        // ── Phase 5: Sequence 3 PIN phase — hold final frame of sequence 3 (frame 1142) & reveal Our Story
+        // ── Phase 5: Sequence 3 PIN phase — hold final frame & keep overlay 100% visible (progress = 1)
         targetFrame = SEQ1_TOTAL + SEQ2_TOTAL + SEQ3_TOTAL - 1; // 1142
-        const pinProgress3 = (scrollY - SEQ3_END) / SEQ3_PIN_SCROLL_HEIGHT;
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(false, 1);
-        if (onSeq3PinChange) onSeq3PinChange(true, clamp(pinProgress3, 0, 1), 1);
+        if (onSeq3PinChange) onSeq3PinChange(true, 1, 1);
         if (onSeq4PinChange) onSeq4PinChange(false, 0);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
         if (onSeq6PinChange) onSeq6PinChange(false, 0);
@@ -384,13 +382,12 @@ export default function SequencePlayer({
         }
 
       } else if (scrollY < SEQ4_PIN_END) {
-        // ── Phase 7: Sequence 4 PIN phase — hold final frame of sequence 4 (frame 1622) & keep Couple & Parents overlay 100% visible
+        // ── Phase 7: Sequence 4 PIN phase — hold final frame & keep overlay 100% visible (progress = 1)
         targetFrame = SEQ1_TOTAL + SEQ2_TOTAL + SEQ3_TOTAL + SEQ4_TOTAL - 1; // 1622
-        const pinProgress4 = (scrollY - SEQ4_END) / SEQ4_PIN_SCROLL_HEIGHT;
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(false, 1);
         if (onSeq3PinChange) onSeq3PinChange(false, 1);
-        if (onSeq4PinChange) onSeq4PinChange(true, clamp(pinProgress4, 0, 1), 1);
+        if (onSeq4PinChange) onSeq4PinChange(true, 1, 1);
         if (onSeq5PinChange) onSeq5PinChange(false, 0);
         if (onSeq6PinChange) onSeq6PinChange(false, 0);
         if (onSeq7PinChange) onSeq7PinChange(false, 0);
@@ -437,14 +434,13 @@ export default function SequencePlayer({
         }
 
       } else if (scrollY < SEQ5_PIN_END) {
-        // ── Phase 9: Sequence 5 PIN phase — hold final frame of sequence 5 (frame 1860) & reveal Wedding Countdown
+        // ── Phase 9: Sequence 5 PIN phase — hold final frame & keep overlay 100% visible (progress = 1)
         targetFrame = SEQ1_TOTAL + SEQ2_TOTAL + SEQ3_TOTAL + SEQ4_TOTAL + SEQ5_TOTAL - 1; // 1860
-        const pinProgress5 = (scrollY - SEQ5_END) / SEQ5_PIN_SCROLL_HEIGHT;
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(false, 1);
         if (onSeq3PinChange) onSeq3PinChange(false, 1);
         if (onSeq4PinChange) onSeq4PinChange(false, 1);
-        if (onSeq5PinChange) onSeq5PinChange(true, clamp(pinProgress5, 0, 1), 1);
+        if (onSeq5PinChange) onSeq5PinChange(true, 1, 1);
         if (onSeq6PinChange) onSeq6PinChange(false, 0);
         if (onSeq7PinChange) onSeq7PinChange(false, 0);
 
@@ -491,16 +487,15 @@ export default function SequencePlayer({
         }
 
       } else if (scrollY < SEQ6_PIN_END) {
-        // ── Phase 11: Sequence 6 PIN phase — hold final frame of sequence 6 (frame 2130) & reveal Location Map
+        // ── Phase 11: Sequence 6 PIN phase — hold final frame & keep overlay 100% visible (progress = 1)
         targetFrame =
           SEQ1_TOTAL + SEQ2_TOTAL + SEQ3_TOTAL + SEQ4_TOTAL + SEQ5_TOTAL + SEQ6_TOTAL - 1; // 2130
-        const pinProgress6 = (scrollY - SEQ6_END) / SEQ6_PIN_SCROLL_HEIGHT;
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(false, 1);
         if (onSeq3PinChange) onSeq3PinChange(false, 1);
         if (onSeq4PinChange) onSeq4PinChange(false, 1);
         if (onSeq5PinChange) onSeq5PinChange(false, 1);
-        if (onSeq6PinChange) onSeq6PinChange(true, clamp(pinProgress6, 0, 1), 1);
+        if (onSeq6PinChange) onSeq6PinChange(true, 1, 1);
         if (onSeq7PinChange) onSeq7PinChange(false, 0);
 
       } else if (scrollY < SEQ7_END) {
@@ -552,16 +547,15 @@ export default function SequencePlayer({
         }
 
       } else if (scrollY < SEQ7_PIN_END) {
-        // ── Phase 13: Sequence 7 PIN phase — hold final frame of sequence 7 (frame 2374) & reveal Thank You overlay
+        // ── Phase 13: Sequence 7 PIN phase — hold final frame & keep overlay 100% visible (progress = 1)
         targetFrame = TOTAL_FRAMES - 1; // 2374
-        const pinProgress7 = (scrollY - SEQ7_END) / SEQ7_PIN_SCROLL_HEIGHT;
         if (onHeroPhaseChange) onHeroPhaseChange(false, 1, 0);
         if (onSeq2PinChange) onSeq2PinChange(false, 1);
         if (onSeq3PinChange) onSeq3PinChange(false, 1);
         if (onSeq4PinChange) onSeq4PinChange(false, 1);
         if (onSeq5PinChange) onSeq5PinChange(false, 1);
         if (onSeq6PinChange) onSeq6PinChange(false, 1);
-        if (onSeq7PinChange) onSeq7PinChange(true, clamp(pinProgress7, 0, 1), 1);
+        if (onSeq7PinChange) onSeq7PinChange(true, 1, 1);
 
       } else {
         // ── Phase 14: Past sequence 7 pin — hold final frame as resting backdrop
